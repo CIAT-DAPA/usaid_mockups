@@ -1,0 +1,36 @@
+<h1 class="text-center">{{ tipoCultivo | uppercase }}</h1>
+<br />
+<div class="row">
+    <div class="col-lg-4">
+        <img class="img-circle" src="images/thumbnail/calendar_heatmap.png" alt="Calendar Heatmap"
+            width="140" height="140">
+        <p><a class="btn btn-default" href="#/graficas/calendarheatmap/{{ tipoCultivo }}" role="button">Calendar Heatmap</a></p>
+    </div>
+    <div class="col-lg-4">
+        <img class="img-circle" src="images/thumbnail/calendar_heatmap.png" alt="Calendar Heatmap"
+            width="140" height="140">
+        <p><a class="btn btn-default" href="#/graficas/heatmap/{{ tipoCultivo }}" role="button">Calendar Heatmap</a></p>
+    </div>
+    <div class="col-lg-4">
+        <img class="img-circle" src="images/thumbnail/calendar_heatmap.png" alt="Calendar Heatmap"
+            width="140" height="140">
+        <p><a class="btn btn-default" href="#/graficas/heatmap/{{ tipoCultivo }}" role="button">Calendar Heatmap</a></p>
+    </div>
+</div>
+<h2>Datos</h2>
+<table class="table">
+    <tr>
+        <th>Variedad</th>
+        <th>Fecha</th>
+        <th>Rendimiento Promedio</th>
+        <th>Rendimiento Desviación</th>
+    </tr>
+    <tbody class="table-hover">
+        <tr ng-repeat="item in items">
+            <td>{{ item.Variedad }}</td>
+            <td>{{ item.Fecha }}</td>
+            <td>{{ item.RendimientoPromedio }}</td>
+            <td>{{ item.RendimientoDesviacion }}</td>
+        </tr>
+    </tbody>
+</table>
