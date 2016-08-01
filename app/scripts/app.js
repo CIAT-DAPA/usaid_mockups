@@ -41,6 +41,11 @@ angular
         controller: 'CalendarheatmapCtrl',
         controllerAs: 'calendarheatmap'
       })
+      .when('/graficas/calendargoogle/:cultivoID/', {
+        templateUrl: 'views/calendargoogle.html',
+        controller: 'CalendargoogleCtrl',
+        controllerAs: 'calendargoogle'
+      })
       .otherwise({
         redirectTo: '/'
       });

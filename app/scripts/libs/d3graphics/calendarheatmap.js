@@ -4,12 +4,13 @@ D3Graphics.CalendarHeatmap = D3Graphics.CalendarHeatmap || {};
 
 D3Graphics.CalendarHeatmap.vars = { container: null };
 
-D3Graphics.CalendarHeatmap.monthTitle = function (t0) {
-    return t0.toLocaleString("en-us", { month: "long" });
-}
-
-D3Graphics.CalendarHeatmap.yearTitle = function (t0) {
-    return t0.toString().split(" ")[3];
+D3Graphics.CalendarHeatmap.tools = {
+    monthTitle: function (t0) {
+        return t0.toLocaleString("en-us", { month: "long" });
+    },
+    yearTitle: function (t0) {
+        return t0.toString().split(" ")[3];
+    }
 }
 
 D3Graphics.CalendarHeatmap.render = function (items) {
@@ -67,7 +68,7 @@ D3Graphics.CalendarHeatmap.render = function (items) {
             return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1));
         })
         .enter().append("text")
-        .text(D3Graphics.CalendarHeatmap.monthTitle)
+        .text(D3Graphics.CalendarHeatmap.tools.monthTitle)
         .attr("x", function (d, i) {
             var month_padding = 1.2 * cellSize * 7 * ((month(d) - 1) % (no_months_in_a_row));
             return month_padding;
@@ -78,18 +79,18 @@ D3Graphics.CalendarHeatmap.render = function (items) {
             return (week_diff * cellSize) + row_level * cellSize * 8 - cellSize - shift_up;
         })
         .attr("class", "month-title")
-        .attr("d", D3Graphics.CalendarHeatmap.monthTitle);
+        .attr("d", D3Graphics.CalendarHeatmap.tools.monthTitle);
 
     var year_titles = svg.selectAll(".year-title")  // Jan, Feb, Mar and the whatnot
         .data(function (d) {
             return d3.time.years(new Date(d, 0, 1), new Date(d + 1, 0, 1));
         })
         .enter().append("text")
-        .text(D3Graphics.CalendarHeatmap.yearTitle)
+        .text(D3Graphics.CalendarHeatmap.tools.yearTitle)
         .attr("x", function (d, i) { return width / 2 - 100; })
         .attr("y", function (d, i) { return cellSize * 5.5 - shift_up; })
         .attr("class", "year-title")
-        .attr("d", D3Graphics.CalendarHeatmap.yearTitle);
+        .attr("d", D3Graphics.CalendarHeatmap.tools.yearTitle);
 
 
     //  Tooltip Object

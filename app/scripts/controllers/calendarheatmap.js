@@ -11,7 +11,6 @@ angular.module('usaidMockupsApp')
   .controller('CalendarheatmapCtrl', function ($scope, $routeParams, cultivoFactory) {
 
     $scope.tipoCultivo = $routeParams.cultivoID;
-    //console.log(cultivoFactory.getUrlDatos($routeParams.cultivoID));
     cultivoFactory.listar($scope.tipoCultivo).then(function (data) {
 
       var f174 = D3Graphics.CalendarHeatmap;
