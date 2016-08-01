@@ -33,7 +33,8 @@ D3Graphics.CalendarHeatmap.render = function (items) {
         format = d3.time.format("%Y-%m-%d");
 
     var color = d3.scale.quantize()
-        .domain([5776.1145, 6417.801])
+        //.domain([5776.1145, 6417.801])
+        .domain([5776.1145, 7100.1])
         .range(d3.range(11).map(function (d) { return "q" + d + "-11"; }));
 
     var svg = d3.select(D3Graphics.CalendarHeatmap.vars.container).selectAll("svg")
