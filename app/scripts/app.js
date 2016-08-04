@@ -46,6 +46,11 @@ angular
         controller: 'CalendargoogleCtrl',
         controllerAs: 'calendargoogle'
       })
+      .when('/graficas/spider/:cultivoID/', {
+        templateUrl: 'views/spider.html',
+        controller: 'SpiderCtrl',
+        controllerAs: 'spider'
+      })
       .otherwise({
         redirectTo: '/'
       });
