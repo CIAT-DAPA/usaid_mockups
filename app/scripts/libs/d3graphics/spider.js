@@ -93,7 +93,7 @@ D3Graphics.Spider.render = function (d) {
             .text(D3Graphics.Spider.vars.format((j + 1) * D3Graphics.Spider.vars.maxValue / D3Graphics.Spider.vars.levels));
     }
 
-    series = 0;
+    var series = 0;
 
     var axis = g.selectAll(".axis")
         .data(allAxis)
@@ -123,7 +123,7 @@ D3Graphics.Spider.render = function (d) {
 
 
     d.forEach(function (y, x) {
-        dataValues = [];
+        var dataValues = [];
         g.selectAll(".nodes")
             .data(y, function (j, i) {
                 dataValues.push([
@@ -149,7 +149,7 @@ D3Graphics.Spider.render = function (d) {
             .style("fill", function (j, i) { return D3Graphics.Spider.vars.color(series) })
             .style("fill-opacity", D3Graphics.Spider.vars.opacityArea)
             .on('mouseover', function (d) {
-                z = "polygon." + d3.select(this).attr("class");
+                var z = "polygon." + d3.select(this).attr("class");
                 g.selectAll("polygon")
                     .transition(200)
                     .style("fill-opacity", 0.1);
@@ -175,6 +175,7 @@ D3Graphics.Spider.render = function (d) {
             .attr('r', D3Graphics.Spider.vars.radius)
             .attr("alt", function (j) { return Math.max(j.value, 0) })
             .attr("cx", function (j, i) {
+                var dataValues = [];
                 dataValues.push([
                     D3Graphics.Spider.vars.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / D3Graphics.Spider.vars.maxValue) * D3Graphics.Spider.vars.factor * Math.sin(i * D3Graphics.Spider.vars.radians / total)),
                     D3Graphics.Spider.vars.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / D3Graphics.Spider.vars.maxValue) * D3Graphics.Spider.vars.factor * Math.cos(i * D3Graphics.Spider.vars.radians / total))
@@ -187,8 +188,8 @@ D3Graphics.Spider.render = function (d) {
             .attr("data-id", function (j) { return j.axis })
             .style("fill", D3Graphics.Spider.vars.color(series)).style("fill-opacity", .9)
             .on('mouseover', function (d) {
-                newX = parseFloat(d3.select(this).attr('cx')) - 10;
-                newY = parseFloat(d3.select(this).attr('cy')) - 5;
+                var newX = parseFloat(d3.select(this).attr('cx')) - 10;
+                var newY = parseFloat(d3.select(this).attr('cy')) - 5;
 
                 tooltip
                     .attr('x', newX)
@@ -197,7 +198,7 @@ D3Graphics.Spider.render = function (d) {
                     .transition(200)
                     .style('opacity', 1);
 
-                z = "polygon." + d3.select(this).attr("class");
+                var z = "polygon." + d3.select(this).attr("class");
                 g.selectAll("polygon")
                     .transition(200)
                     .style("fill-opacity", 0.1);
