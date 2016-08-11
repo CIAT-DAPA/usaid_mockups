@@ -51,6 +51,11 @@ angular
         controller: 'SpiderCtrl',
         controllerAs: 'spider'
       })
+      .when('/graficas/barchart/:cultivoID/', {
+        templateUrl: 'views/barchart.html',
+        controller: 'BarchartCtrl',
+        controllerAs: 'barchart'
+      })
       .otherwise({
         redirectTo: '/'
       });
