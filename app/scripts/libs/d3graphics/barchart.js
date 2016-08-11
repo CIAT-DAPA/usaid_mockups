@@ -64,8 +64,6 @@ D3Graphics.Barchart.render = function (data) {
         if (variedad.indexOf(data[i].Variedad) < 0) {
             variedad.push(data[i].Variedad);
 
-            //y.domain([0, d3.max(data, function (d) { return d.RendimientoPromedio; })]);
-
             bars = svg.selectAll(".bar").data(data.filter(function (item) {
                 return item.Variedad == variedad[variedad.length - 1];
             })).enter();
@@ -75,13 +73,12 @@ D3Graphics.Barchart.render = function (data) {
                 .attr("class", "bar" + variedad.length)
                 .attr("x", function (d) { return x(d.Fecha) + rango; })
                 .attr("width", (x.rangeBand() / 2) * .9)
-                .attr("y", function (d) { return y(d.RendimientoPromedio) -  (yDesviacion(d.RendimientoDesviacion) /2); })
-                .attr("height", function (d, i, j) { return yDesviacion(d.RendimientoDesviacion); })
+                .attr("y", function (d) { return y(d.RendimientoPromedio) -  (yDesviacion(d.RendimientoDesviacion) ); })
+                .attr("height", function (d, i, j) { return yDesviacion(d.RendimientoDesviacion) * 2; })
                 .on("mouseover", function (d) {
-                    var r = parseFloat(d.RendimientoDesviacion) / 2;
+                    var r = parseFloat(d.RendimientoDesviacion);
                     var lower = parseFloat(d.RendimientoPromedio) - r;
                     var upper = parseFloat(d.RendimientoPromedio) + r;
-                    console.log(r + ' ' + d.RendimientoDesviacion + ' ' + d.RendimientoPromedio );
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9)
