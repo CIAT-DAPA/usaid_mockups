@@ -56,6 +56,11 @@ angular
         controller: 'BarchartCtrl',
         controllerAs: 'barchart'
       })
+      .when('/graficas/pieandline/clima/', {
+        templateUrl: 'views/pieandline.html',
+        controller: 'PieandlineCtrl',
+        controllerAs: 'pieandline'
+      })
       .otherwise({
         redirectTo: '/'
       });

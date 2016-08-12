@@ -8,20 +8,45 @@
  * Factory in the usaidMockupsApp.
  */
 angular.module('usaidMockupsApp')
-  .factory('climaFactory', function () {
+  .factory('CSV2Json',function () {
     // Service logic
     // ...
 
-    var estacion = '';
-    var fecha = '';
-    var bajo = 0.0;
-    var normal = 0.0;
-    var alto = 0.0;
+    var dataFactory = {};
 
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
+    dataFactory.parse = function (csv) {
+      var lines=csv.split("\n");
+      var result = [];
+      var headers=lines[0].split(",");
+      for(var i=1;i<lines.length;i++){
+        var obj = {};
+        var currentline=lines[i].split(",");
+        for(var j=0;j<headers.length;j++){
+          obj[headers[j]] = currentline[j];
+        }
+        result.push(obj);
       }
-    };
-  });
+      return result; 
+      //return JSON.parse(JSON.stringify(result)) ; //JSON
+    }
+
+    return dataFactory;
+  })
+  .factory('climaFactory',['$http','config','CSV2Json', function ($http,config,CSV2Json) {    
+    var dataFactory = {};
+
+    dataFactory.getUrlDatos = function () {
+      return config.data_clima;
+    }
+
+    dataFactory.listar = function () {
+      
+      var items = $http.get(dataFactory.getUrlDatos()).then(function(response){        
+        return CSV2Json.parse(response.data);
+      });      
+      
+      return items;
+    }
+
+    return dataFactory;
+  }]);
