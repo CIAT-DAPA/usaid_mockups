@@ -10,7 +10,5 @@
 angular.module('usaidMockupsApp')
   .controller('ClimaCtrl', function ($scope) {
     $scope.items = [];
-    /*cultivoFactory.listar().then(function (data) {
-      $scope.items = data;
-    });*/
+    
   });

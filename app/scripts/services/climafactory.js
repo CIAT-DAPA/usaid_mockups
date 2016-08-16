@@ -42,7 +42,7 @@ angular.module('usaidMockupsApp')
     dataFactory.listar = function () {
       
       var items = $http.get(dataFactory.getUrlDatos()).then(function(response){        
-        return CSV2Json.parse(response.data);
+        return response.data;
       });      
       
       return items;
