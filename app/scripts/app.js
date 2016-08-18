@@ -15,7 +15,7 @@ angular
     'ngRoute'
   ])
   .value('config',{
-      data_clima: 'data/clima/clima.csv',
+      data_clima: 'data/clima/pie.json',
       data_arroz: 'data/cultivo/arroz.csv',
       data_maiz: 'data/cultivo/maiz.csv',
   })
@@ -55,6 +55,11 @@ angular
         templateUrl: 'views/barchart.html',
         controller: 'BarchartCtrl',
         controllerAs: 'barchart'
+      })
+      .when('/graficas/pieandline/clima/', {
+        templateUrl: 'views/pieandline.html',
+        controller: 'PieandlineCtrl',
+        controllerAs: 'pieandline'
       })
       .otherwise({
         redirectTo: '/'

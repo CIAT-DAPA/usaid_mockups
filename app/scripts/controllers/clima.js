@@ -8,10 +8,7 @@
  * Controller of the usaidMockupsApp
  */
 angular.module('usaidMockupsApp')
-  .controller('ClimaCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('ClimaCtrl', function ($scope) {
+    $scope.items = [];
+    
   });
