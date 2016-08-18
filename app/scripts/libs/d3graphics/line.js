@@ -9,52 +9,33 @@ D3Graphics.Line.vars = {
 }
 
 D3Graphics.Line.tools = {
-    drawCircle: function (datum, index) {
+    drawCircle: function (datum, index, x, y, detailWidth, detailHeight, detailMargin) {
+        
         circleContainer.datum(datum)
             .append('circle')
             .attr('class', 'lineChart--circle')
             .attr('r', 0)
-            .attr(
-            'cx',
-            function (d) {
-                return x(d.date) + detailWidth / 2;
-            }
-            )
-            .attr(
-            'cy',
-            function (d) {
-                return y(d.value);
-            }
-            )
+            .attr('cx', function (d) { return x(d.date) + detailWidth / 2; } )
+            .attr('cy', function (d) { return y(d.value); } )
             .on('mouseenter', function (d) {
                 d3.select(this)
-                    .attr(
-                    'class',
-                    'lineChart--circle lineChart--circle__highlighted'
-                    )
+                    .attr('class', 'lineChart--circle lineChart--circle__highlighted')
                     .attr('r', 7);
-
                 d.active = true;
-
-                D3Graphics.Line.tools.showCircleDetail(d);
+                D3Graphics.Line.tools.showCircleDetail(d, x, y, detailHeight, detailMargin, detailWidth);
             })
             .on('mouseout', function (d) {
                 d3.select(this)
-                    .attr(
-                    'class',
-                    'lineChart--circle'
-                    )
+                    .attr('class', 'lineChart--circle')
                     .attr('r', 6);
-
                 if (d.active) {
                     D3Graphics.Line.tools.hideCircleDetails();
-
                     d.active = false;
                 }
             })
             .on('click touch', function (d) {
                 if (d.active) {
-                    D3Graphics.Line.tools.showCircleDetail(d)
+                    D3Graphics.Line.tools.showCircleDetail(d,x, y);
                 } else {
                     D3Graphics.Line.tools.hideCircleDetails();
                 }
@@ -63,11 +44,11 @@ D3Graphics.Line.tools = {
             .delay(D3Graphics.Line.vars.DURATION / 10 * index)
             .attr('r', 6);
     },
-    drawCircles: function (data) {
+    drawCircles: function (data, svg, x, y, detailWidth, detailHeight, detailMargin) {
         circleContainer = svg.append('g');
 
         data.forEach(function (datum, index) {
-            D3Graphics.Line.tools.drawCircle(datum, index);
+            D3Graphics.Line.tools.drawCircle(datum, index, x, y, detailWidth, detailHeight, detailMargin);
         });
     },
     hideCircleDetails: function () {
@@ -75,7 +56,7 @@ D3Graphics.Line.tools = {
             .remove();
     },
 
-    showCircleDetail: function (data) {
+    showCircleDetail: function (data, x, y, detailHeight, detailMargin, detailWidth) {
         var details = circleContainer.append('g')
             .attr('class', 'lineChart--bubble')
             .attr(
@@ -218,7 +199,7 @@ D3Graphics.Line.render = function (data) {
         .delay(D3Graphics.Line.vars.DURATION / 2)
         .attrTween('d', D3Graphics.Line.tools.tween(data, line))
         .each('end', function () {
-            D3Graphics.Line.tools.drawCircles(data);
+            D3Graphics.Line.tools.drawCircles(data, svg, x, y, detailWidth, detailHeight, detailMargin);
         });
 
 

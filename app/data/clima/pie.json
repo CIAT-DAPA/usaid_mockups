@@ -1,68 +1,74 @@
 {
     "lineChart": [
       {
-        "date": "2006-02-22",
-        "label": "foo",
+        "date": "2004-01-01",
+        "label": "Niña",
         "value": 950
       },
       {
-        "date": "2006-08-22",
-        "label": "bar",
+        "date": "2005-01-01",
+        "label": "Niño",
         "value": 1000
       },
       {
-        "date": "2007-01-11",
-        "label": "baz",
+        "date": "2006-01-01",
+        "label": "Niña",
         "value": 700
       },
       {
-        "date": "2008-10-01",
-        "label": "boing",
+        "date": "2007-01-01",
+        "label": "Niña",
         "value": 534
       },
       {
-        "date": "2009-02-24",
-        "label": "loool",
+        "date": "2008-01-01",
+        "label": "Niño",
         "value": 1423
       },
       {
-        "date": "2010-12-30",
-        "label": "YEAH",
+        "date": "2009-01-01",
+        "label": "Niño",
         "value": 1222
       },
       {
-        "date": "2011-05-15",
-        "label": "Hurray",
+        "date": "2010-01-01",
+        "label": "Niña",
         "value": 948
       },
       {
-        "date": "2012-04-02",
-        "label": "WTF",
+        "date": "2011-01-01",
+        "label": "Niño",
         "value": 1938
       },
       {
-        "date": "2013-08-19",
-        "label": "OMG",
+        "date": "2012-01-01",
+        "label": "Niño",
         "value": 1245
       },
       {
-        "date": "2013-11-11",
-        "label": "ROFL",
+        "date": "2013-01-01",
+        "label": "Niña",
         "value": 888
       }
     ],
     "pieChart": [
       {
         "color": "red",
-        "description": "Ipsem lorem text goes here. And foo goes bar goes baz. That\"s up!!!",
-        "title": "flowers",
-        "value": 0.62
+        "description": "Alta",
+        "title": "alta",
+        "value": 0.33
+      },
+       {
+        "color": "green",
+        "description": "Normal",
+        "title": "normal",
+        "value": 0.33
       },
       {
         "color": "blue",
-        "description": "Another ipsem text goes here. And baz goes bar goes foo. Oh yeah, whazzz up?",
-        "title": "trains",
-        "value": 0.38
+        "description": "Baja",
+        "title": "baja",
+        "value": 0.34
       }
     ]
   }

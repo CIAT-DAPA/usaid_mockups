@@ -9,7 +9,7 @@ D3Graphics.Pie.vars = {
 }
 
 D3Graphics.Pie.tools = {
-  drawChartCenter: function (pie,radius) {
+  drawChartCenter: function (pie, radius) {
     var centerContainer = pie.append('g')
       .attr('class', 'pieChart--center');
 
@@ -33,7 +33,7 @@ D3Graphics.Pie.tools = {
       .attr('fill', '#fff');
   },
 
-  drawDetailedInformation: function (data, element) {
+  drawDetailedInformation: function (data, element, width, detailedInfo) {
     var bBox = element.getBBox(),
       infoWidth = width * 0.3,
       anchor,
@@ -155,9 +155,8 @@ D3Graphics.Pie.render = function (data) {
       };
     })
     .each('end', function handleAnimationEnd(d) {
-      D3Graphics.Pie.tools.drawDetailedInformation(d.data, this);
+      D3Graphics.Pie.tools.drawDetailedInformation(d.data, this, width, detailedInfo);
     });
-  
-  console.log(pie);
-  D3Graphics.Pie.tools.drawChartCenter(pie,radius);
+
+  D3Graphics.Pie.tools.drawChartCenter(pie, radius);
 }
