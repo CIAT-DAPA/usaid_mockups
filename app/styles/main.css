@@ -350,3 +350,35 @@ text.active {
 .hidden {
   display: none;
 }
+
+/**** Dashboard ****/
+
+#charDashboard path {  stroke: #fff; }
+#charDashboard path:hover {  opacity:0.9; }
+#charDashboard rect:hover {  fill:blue; }
+#charDashboard .axis {  font: 10px sans-serif; }
+#charDashboard .legend tr{    border-bottom:1px solid grey; }
+#charDashboard .legend tr:first-child{    border-top:1px solid grey; }
+
+#charDashboard .axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#charDashboard .x.axis path {  display: none; }
+#charDashboard .legend{
+    margin-bottom:76px;
+    display:inline-block;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+#charDashboard .legend td{
+    padding:4px 5px;
+    vertical-align:bottom;
+}
+#charDashboard .legendFreq, .legendPerc{
+    align:right;
+    width:50px;
+}

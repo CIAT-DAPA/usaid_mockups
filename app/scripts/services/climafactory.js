@@ -35,13 +35,18 @@ angular.module('usaidMockupsApp')
   .factory('climaFactory',['$http','config','CSV2Json', function ($http,config,CSV2Json) {    
     var dataFactory = {};
 
-    dataFactory.getUrlDatos = function () {
-      return config.data_clima;
-    }
-
     dataFactory.listar = function () {
       
-      var items = $http.get(dataFactory.getUrlDatos()).then(function(response){        
+      var items = $http.get(config.data_clima).then(function(response){        
+        return response.data;
+      });      
+      
+      return items;
+    }
+
+    dataFactory.listarDashboard = function () {
+      
+      var items = $http.get(config.data_clima_dashboard).then(function(response){        
         return response.data;
       });      
       
