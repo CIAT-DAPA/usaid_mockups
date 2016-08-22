@@ -16,6 +16,7 @@ angular
   ])
   .value('config',{
       data_clima: 'data/clima/pie.json',
+      data_clima_dashboard: 'data/clima/dashboard.json',
       data_arroz: 'data/cultivo/arroz.csv',
       data_maiz: 'data/cultivo/maiz.csv',
   })
@@ -60,6 +61,11 @@ angular
         templateUrl: 'views/pieandline.html',
         controller: 'PieandlineCtrl',
         controllerAs: 'pieandline'
+      })
+      .when('/graficas/dashboard/clima/', {
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardCtrl',
+        controllerAs: 'dashboard'
       })
       .otherwise({
         redirectTo: '/'
