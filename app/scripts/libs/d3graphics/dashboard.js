@@ -158,9 +158,12 @@ D3Graphics.Dashboard.render = function (fData) {
         var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
 
         // create the first column for each segment.
-        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
-            .attr("width", '16').attr("height", '16')
+        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("circle")
+            .attr("cx", '8').attr("cy", '8').attr("r", '8')
             .attr("fill", function (d) { return segColor(d.type); });
+        /*tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
+            .attr("width", '16').attr("height", '16')
+            .attr("fill", function (d) { return segColor(d.type); });*/
 
         // create the second column for each segment.
         tr.append("td").text(function (d) { return d.type; });
