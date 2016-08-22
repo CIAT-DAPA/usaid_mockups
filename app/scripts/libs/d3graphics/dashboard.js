@@ -6,7 +6,7 @@ D3Graphics.Dashboard.vars = {
     container: '#charDashboard'
 }
 
-D3Graphics.Dashboard.render = function(fData) {
+D3Graphics.Dashboard.render = function (fData) {
     var barColor = 'steelblue';
     function segColor(c) { return { bajo: "#807dba", normal: "#e08214", alta: "#41ab5d" }[c]; }
 
@@ -126,16 +126,16 @@ D3Graphics.Dashboard.render = function(fData) {
         // Utility function to be called on mouseover a pie slice.
         function mouseover(d) {
             // call the update function of histogram with new data.
-            hG.update(fData.map(function (v) {
+            /*hG.update(fData.map(function (v) {
                 return [v.State, v.freq[d.data.type]];
-            }), segColor(d.data.type));
+            }), segColor(d.data.type));*/
         }
         //Utility function to be called on mouseout a pie slice.
         function mouseout(d) {
             // call the update function of histogram with all data.
-            hG.update(fData.map(function (v) {
+            /*hG.update(fData.map(function (v) {
                 return [v.State, v.total];
-            }), barColor);
+            }), barColor);*/
         }
         // Animating the pie-slice requiring a custom function which specifies
         // how the intermediate paths should be drawn.
