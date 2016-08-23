@@ -56,19 +56,19 @@
         "color": "red",
         "description": "Alta",
         "title": "alta",
-        "value": 0.33
+        "value": 0.50
       },
        {
         "color": "green",
         "description": "Normal",
         "title": "normal",
-        "value": 0.33
+        "value": 0.30
       },
       {
         "color": "blue",
         "description": "Baja",
         "title": "baja",
-        "value": 0.34
+        "value": 0.20
       }
     ]
   }

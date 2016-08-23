@@ -32,33 +32,34 @@ D3Graphics.Pie.tools = {
       .attr('r', radius - 55)
       .attr('fill', '#fff');
   },
-
-  drawDetailedInformation: function (data, element, width, detailedInfo) {
+  drawDetailedInformation: function (data, element, width, detailedInfo, height) {
     var bBox = element.getBBox(),
       infoWidth = width * 0.3,
       anchor,
       infoContainer,
       position;
+    console.log(bBox);
+    console.log(element);
+
+    //var y=bBox.height + bBox.y;
+    var y= height - (bBox.height / 2) + bBox.y  ;
 
     if ((bBox.x + bBox.width / 2) > 0) {
       infoContainer = detailedInfo.append('g')
         .attr('width', infoWidth)
-        .attr(
-        'transform',
-        'translate(' + (width - infoWidth) + ',' + (bBox.height + bBox.y) + ')'
-        );
+        .attr('transform','translate(' + (width - infoWidth) + ',' + y + ')');
       anchor = 'end';
       position = 'right';
     } else {
       infoContainer = detailedInfo.append('g')
         .attr('width', infoWidth)
-        .attr(
-        'transform',
-        'translate(' + 0 + ',' + (bBox.height + bBox.y) + ')'
-        );
+        .attr('transform','translate(' + 0 + ',' + y + ')');
       anchor = 'start';
       position = 'left';
     }
+
+      console.log(infoContainer.attr('transform'));
+    
 
     infoContainer.data([data.value * 100])
       .append('text')
@@ -70,16 +71,10 @@ D3Graphics.Pie.tools = {
       .transition()
       .duration(D3Graphics.Pie.vars.DURATION)
       .tween('text', function (d) {
-        var i = d3.interpolateRound(
-          +this.textContent.replace(/\s%/ig, ''),
-          d
-        );
-
-        return function (t) {
-          this.textContent = i(t) + ' %';
-        };
+        var i = d3.interpolateRound(+this.textContent.replace(/\s%/ig, ''),d);
+        return function (t) { this.textContent = i(t) + ' %';};
       });
-
+    
     infoContainer.append('line')
       .attr('class', 'pieChart--detail--divider')
       .attr('x1', 0)
@@ -95,12 +90,12 @@ D3Graphics.Pie.tools = {
       .attr('width', infoWidth)
       .attr('height', 100)
       .append('xhtml:body')
-      .attr(
-      'class',
-      'pieChart--detail--textContainer ' + 'pieChart--detail__' + position
-      )
+      .attr('class','pieChart--detail--textContainer pieChart--detail__' + position)
       .html(data.description);
+
   }
+
+  
 }
 
 D3Graphics.Pie.render = function (data) {
@@ -155,7 +150,7 @@ D3Graphics.Pie.render = function (data) {
       };
     })
     .each('end', function handleAnimationEnd(d) {
-      D3Graphics.Pie.tools.drawDetailedInformation(d.data, this, width, detailedInfo);
+      D3Graphics.Pie.tools.drawDetailedInformation(d.data, this, width, detailedInfo, height);
     });
 
   D3Graphics.Pie.tools.drawChartCenter(pie, radius);
