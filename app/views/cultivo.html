@@ -1,10 +1,30 @@
-<h1 class="text-center">{{ tipoCultivo | uppercase }}</h1>
+<h2 class="text-center">PRONÓSTICOS PARA EL CULTIVO DE {{ tipoCultivo | uppercase }}</h2>
+<br />
+<p>
+    Por favor seleccione alguno de los siguientes formatos para visualizar los pronósticos de rendimientos del cultivo
+</p>
 <br />
 <div class="row">
-    <div class="col-lg-4 text-center">
-        <img class="img-circle" src="images/thumbnail/calendar_heatmap.png" alt="Calendar Heatmap" width="140" height="140">
-        <p><a class="btn btn-default" href="#/graficas/calendarheatmap/{{ tipoCultivo }}" role="button">Calendar Heatmap</a></p>
+    <div class="col-md-6 text-center">
+        <a href="#/graficas/calendarheatmap/{{ tipoCultivo }}">
+            <img class="img-circle" src="images/thumbnail/calendar_heatmap.png" alt="Calendar Heatmap" width="140" height="140">
+        </a>
+        <br />
+        <br />
+        <p><a class="btn btn-default" href="#/graficas/calendarheatmap/{{ tipoCultivo }}" role="button">Formato #3</a></p>
     </div>
+    <div class="col-md-6 text-center">
+        <a href="#/graficas/barchart/{{ tipoCultivo }}">
+            <img class="img-circle" src="images/thumbnail/barchart.png" alt="Bar Chart" width="140" height="140">
+        </a>
+        <br />
+        <br />
+        <p><a class="btn btn-default" href="#/graficas/barchart/{{ tipoCultivo }}" role="button">Formato #4</a></p>
+    </div>
+    
+</div>
+<!--
+<div class="row">
     <div class="col-lg-4 text-center">
         <img class="img-circle" src="images/thumbnail/calendar_google.png" alt="Calendar Google" width="140" height="140">
         <p><a class="btn btn-default" href="#/graficas/calendargoogle/{{ tipoCultivo }}" role="button">Calendar Google</a></p>
@@ -14,27 +34,4 @@
         <p><a class="btn btn-default" href="#/graficas/spider/{{ tipoCultivo }}" role="button">Spider</a></p>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-4 text-center">
-        <img class="img-circle" src="images/thumbnail/barchart.png" alt="Bar Chart" width="140" height="140">
-        <p><a class="btn btn-default" href="#/graficas/barchart/{{ tipoCultivo }}" role="button">Bar Chart</a></p>
-    </div>
-    
-</div>
-<h2>Datos</h2>
-<table class="table">
-    <tr>
-        <th>Variedad</th>
-        <th>Fecha</th>
-        <th>Rendimiento Promedio</th>
-        <th>Rendimiento Desviación</th>
-    </tr>
-    <tbody class="table-hover">
-        <tr ng-repeat="item in items">
-            <td>{{ item.Variedad }}</td>
-            <td>{{ item.Fecha }}</td>
-            <td>{{ item.RendimientoPromedio }}</td>
-            <td>{{ item.RendimientoDesviacion }}</td>
-        </tr>
-    </tbody>
-</table>
+-->
