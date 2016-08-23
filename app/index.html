@@ -32,7 +32,10 @@
     <!-- The justified navigation menu is meant for single line per list item.
            Multiple lines will require custom code not provided by Bootstrap. -->
     <div class="masthead">
-      <h1 ><a href="#/">Pronósticos climáticos y agroclimáticos</a></h1>
+      <h1 class="text-center">
+        <a href="#/"><img alt="" src="/images/banner.png" /></a>
+      </h1>
+      <br />
       <nav>
         <ul class="nav nav-justified">
           <li><a ng-href="#/clima">Clima</a></li>
@@ -96,8 +99,13 @@
   <script src="scripts/libs/d3graphics/pie.js"></script>
   <script src="scripts/libs/d3graphics/line.js"></script>
   <script src="scripts/libs/d3graphics/dashboard.js"></script>
-
   <!-- endbuild -->
+  <script>
+    $(".nav a").on("click", function(){
+      $(".nav").find(".active").removeClass("active");
+      $(this).parent().addClass("active");
+    });
+  </script>
 </body>
 
 </html>

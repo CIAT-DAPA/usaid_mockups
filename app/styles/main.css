@@ -9,15 +9,18 @@ body {
   border-top: 1px solid #eee;
 }
 
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  background-color: transparent;
+.brand img, .brand h2 {
+  padding: 20px;
 }
-.jumbotron .btn {
-  padding: 14px 24px;
-  font-size: 21px;
+
+.brand a {
+  text-decoration: none
 }
+
+.brand a:visited {
+  text-decoration: none
+}
+
 
 /* Customize the nav-justified links to be fill the entire space of the .navbar */
 
@@ -26,6 +29,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .nav-justified > li > a {
   padding-top: 15px;
   padding-bottom: 15px;
@@ -33,26 +37,30 @@ body {
   font-weight: bold;
   color: #777;
   text-align: center;
-  background-color: #e5e5e5; /* Old browsers */
+  background-color: #e5e5e5;
+  /* Old browsers */
   background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#e5e5e5));
   background-image: -webkit-linear-gradient(top, #f5f5f5 0%, #e5e5e5 100%);
-  background-image:      -o-linear-gradient(top, #f5f5f5 0%, #e5e5e5 100%);
-  background-image:         linear-gradient(to bottom, #f5f5f5 0%,#e5e5e5 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
-  background-repeat: repeat-x; /* Repeat the gradient */
+  background-image: -o-linear-gradient(top, #f5f5f5 0%, #e5e5e5 100%);
+  background-image: linear-gradient(to bottom, #f5f5f5 0%, #e5e5e5 100%);
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#e5e5e5', GradientType=0);
+  /* IE6-9 */
+  background-repeat: repeat-x;
+  /* Repeat the gradient */
   border-bottom: 1px solid #d5d5d5;
 }
-.nav-justified > .active > a,
-.nav-justified > .active > a:hover,
-.nav-justified > .active > a:focus {
+
+.nav-justified > .active > a, .nav-justified > .active > a:hover, .nav-justified > .active > a:focus {
   background-color: #ddd;
   background-image: none;
-  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.15);
-          box-shadow: inset 0 3px 7px rgba(0,0,0,.15);
+  -webkit-box-shadow: inset 0 3px 7px rgba(0, 0, 0, .15);
+  box-shadow: inset 0 3px 7px rgba(0, 0, 0, .15);
 }
+
 .nav-justified > li:first-child > a {
   border-radius: 5px 5px 0 0;
 }
+
 .nav-justified > li:last-child > a {
   border-bottom: 0;
   border-radius: 0 0 5px 5px;
@@ -76,18 +84,20 @@ body {
   }
 }
 
+
 /* Responsive: Portrait tablets and up */
+
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
-  .masthead,
-  .marketing,
-  .footer {
+  .masthead, .marketing, .footer {
     padding-right: 0;
     padding-left: 0;
   }
 }
 
+
 /**** Calendar Heatmap ****/
+
 .background {
   fill: #eee;
 }
@@ -110,76 +120,125 @@ text.active {
   stroke: #fff;
   stroke-width: 4px;
 }
+
 .year-title {
   font-size: 1.5em;
 }
 
+
 /* color ranges */
-.RdYlGn .q0-11{fill:rgb(165,0,38)}
-.RdYlGn .q1-11{fill:rgb(215,48,39)}
-.RdYlGn .q2-11{fill:rgb(244,109,67)}
-.RdYlGn .q3-11{fill:rgb(253,174,97)}
-.RdYlGn .q4-11{fill:rgb(254,224,139)}
-.RdYlGn .q5-11{fill:rgb(255,255,191)}
-.RdYlGn .q6-11{fill:rgb(217,239,139)}
-.RdYlGn .q7-11{fill:rgb(166,217,106)}
-.RdYlGn .q8-11{fill:rgb(102,189,99)}
-.RdYlGn .q9-11{fill:rgb(26,152,80)}
-.RdYlGn .q10-11{fill:rgb(0,104,55)}
+
+.RdYlGn .q0-11 {
+  fill: rgb(165, 0, 38)
+}
+
+.RdYlGn .q1-11 {
+  fill: rgb(215, 48, 39)
+}
+
+.RdYlGn .q2-11 {
+  fill: rgb(244, 109, 67)
+}
+
+.RdYlGn .q3-11 {
+  fill: rgb(253, 174, 97)
+}
+
+.RdYlGn .q4-11 {
+  fill: rgb(254, 224, 139)
+}
+
+.RdYlGn .q5-11 {
+  fill: rgb(255, 255, 191)
+}
+
+.RdYlGn .q6-11 {
+  fill: rgb(217, 239, 139)
+}
+
+.RdYlGn .q7-11 {
+  fill: rgb(166, 217, 106)
+}
+
+.RdYlGn .q8-11 {
+  fill: rgb(102, 189, 99)
+}
+
+.RdYlGn .q9-11 {
+  fill: rgb(26, 152, 80)
+}
+
+.RdYlGn .q10-11 {
+  fill: rgb(0, 104, 55)
+}
+
 
 /* hover info */
+
 #tooltip {
   background-color: #fff;
   border: 2px solid #ccc;
   padding: 10px;
 }
 
+
 /**** Radar ****/
+
 .radar-chart .area {
   fill-opacity: 0.7;
 }
+
 .radar-chart.focus .area {
   fill-opacity: 0.3;
 }
+
 .radar-chart.focus .area.focused {
   fill-opacity: 0.9;
 }
+
 .area.germany, .germany .circle {
   fill: #FFD700;
   stroke: none;
 }
+
 .area.argentina, .argentina .circle {
   fill: #ADD8E6;
   stroke: none;
 }
 
+
 /**** legend ****/
+
 .legend rect {
-  fill:white;
-  stroke:black;
-  opacity:0.8;
+  fill: white;
+  stroke: black;
+  opacity: 0.8;
 }
 
 
 /**** bars ****/
 
-.axis path,
-.axis line {
+.axis path, .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
 .bar1 {
   fill: steelblue;
 }
+
 .bar2 {
   fill: orange;
 }
+
 .x.axis path {
   display: none;
 }
 
+
 /**** Pie And Line ****/
+
 .chart {
   min-height: 400px;
   border-bottom: 1px solid #eee;
@@ -195,6 +254,7 @@ text.active {
   font-weight: 100;
   font-size: 28px;
 }
+
 .chart--headline:before {
   position: absolute;
   content: '';
@@ -215,6 +275,7 @@ text.active {
   background-color: #fff;
   width: 100%;
 }
+
 @media screen and (min-width: 700px) {
   .charts--container {
     max-width: 700px;
@@ -294,7 +355,7 @@ text.active {
   fill: none;
   stroke: #b3b3b3;
   stroke-width: 1;
-  stroke-dasharray: 2,2;
+  stroke-dasharray: 2, 2;
 }
 
 .pieChart--center--innerCircle {
@@ -349,41 +410,65 @@ text.active {
   fill: #92d892;
 }
 
+
 /**
  * Helper classes
  */
+
 .hidden {
   display: none;
 }
 
+
 /**** Dashboard ****/
 
-#charDashboard path {  stroke: #fff; }
-#charDashboard path:hover {  opacity:0.9; }
-#charDashboard rect:hover {  fill:blue; }
-#charDashboard .axis {  font: 10px sans-serif; }
-#charDashboard .legend tr{    border-bottom:1px solid grey; }
-#charDashboard .legend tr:first-child{    border-top:1px solid grey; }
+#charDashboard path {
+  stroke: #fff;
+}
 
-#charDashboard .axis path,
-.axis line {
+#charDashboard path:hover {
+  opacity: 0.9;
+}
+
+#charDashboard rect:hover {
+  fill: blue;
+}
+
+#charDashboard .axis {
+  font: 10px sans-serif;
+}
+
+#charDashboard .legend tr {
+  border-bottom: 1px solid grey;
+}
+
+#charDashboard .legend tr:first-child {
+  border-top: 1px solid grey;
+}
+
+#charDashboard .axis path, .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-#charDashboard .x.axis path {  display: none; }
-#charDashboard .legend{
-    margin-bottom:76px;
-    display:inline-block;
-    border-collapse: collapse;
-    border-spacing: 0px;
+#charDashboard .x.axis path {
+  display: none;
 }
-#charDashboard .legend td{
-    padding:4px 5px;
-    vertical-align:bottom;
+
+#charDashboard .legend {
+  margin-bottom: 76px;
+  display: inline-block;
+  border-collapse: collapse;
+  border-spacing: 0px;
 }
-#charDashboard .legendFreq, .legendPerc{
-    align:right;
-    width:50px;
+
+#charDashboard .legend td {
+  padding: 4px 5px;
+  vertical-align: bottom;
+}
+
+#charDashboard .legendFreq, .legendPerc {
+  align: right;
+  width: 50px;
 }
