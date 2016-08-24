@@ -3,43 +3,50 @@ var D3Graphics = D3Graphics || {};
 D3Graphics.Dashboard = D3Graphics.Dashboard || {};
 
 D3Graphics.Dashboard.vars = {
-    container: '#charDashboard'
+    containerBars: '#charBars',
+    containerPie: '#charPie',
 }
 
 D3Graphics.Dashboard.render = function (fData) {
     var barColor = 'steelblue';
-    function segColor(c) { return { bajo: "#807dba", normal: "#41ab5d", alta: "#e08214" }[c]; }
+    function segColor(c) { return { bajo: "#6bb7c7", normal: "#92d892", alta: "#d79d91" }[c]; }
 
     // function to handle histogram.
     function histoGram(fD) {
-        var containerEl = document.getElementById(D3Graphics.Dashboard.vars.container.replace('#', ''));
+        var containerEl = document.getElementById(D3Graphics.Dashboard.vars.containerBars.replace('#', ''));
         var hG = {}, hGDim = { t: 60, r: 10, b: 30, l: 0 };
         hGDim.w = 500 - hGDim.l - hGDim.r;
         hGDim.h = 300 - hGDim.t - hGDim.b;
-        width = containerEl.clientWidth;
-        height = width * 0.4;
+        var width = containerEl.clientWidth;
+        //var widthBars = width > 400 ? width / 2 : width;
+        var widthBars = width;
+        var heightBars = widthBars * 0.5;
+
         //create svg for histogram.
-        var hGsvg = d3.select(D3Graphics.Dashboard.vars.container).append("svg")
+        var hGsvg = d3.select(D3Graphics.Dashboard.vars.containerBars).append("svg")
             //.attr("width", hGDim.w + hGDim.l + hGDim.r)
-            .attr("width", width / 2)
+            .attr("width", widthBars)
 
             //.attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
-            .attr("height", height).append("g")
+            .attr("height", heightBars).append("g")
             //.attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
             .attr("transform", "translate(0,0)");
 
         // create function for x-axis mapping.
-        var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
+        //var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
+        var x = d3.scale.ordinal().rangeRoundBands([30, widthBars-30], 0.1)
             .domain(fD.map(function (d) { return d[0]; }));
-
+        
+       
         // Add x-axis to the histogram svg.
         hGsvg.append("g").attr("class", "x axis")
-            .attr("transform", "translate(0," + hGDim.h + ")")
+            //.attr("transform", "translate(0," + hGDim.h + ")")
+            .attr("transform", "translate(0," + (heightBars * .9) + ")")
             .call(d3.svg.axis().scale(x).orient("bottom"));
 
         // Create function for y-axis map.
-        var y = d3.scale.linear().range([hGDim.h + 20, 0])
-            .domain([0, d3.max(fD, function (d) { return d[1]; })]);
+        var y = d3.scale.linear().range([heightBars * .9, 0])
+            .domain([0, d3.max(fD, function (d) { return d[1]; }) * 1.1]);
 
         var yAxisLeft = d3.svg.axis().scale(y).ticks(8).orient("left");
 
@@ -49,7 +56,7 @@ D3Graphics.Dashboard.render = function (fData) {
             .call(yAxisLeft)
             .append("text")
             .attr("y", 6)
-            .attr("dy", "-1em")
+            .attr("dy", "-2em")
             .style("text-anchor", "end")
             .text("Precipitación mt2");
 
@@ -62,7 +69,7 @@ D3Graphics.Dashboard.render = function (fData) {
             .attr("x", function (d) { return x(d[0]); })
             .attr("y", function (d) { return y(d[1]); })
             .attr("width", x.rangeBand())
-            .attr("height", function (d) { return hGDim.h - y(d[1]); })
+            .attr("height", function (d) { return (heightBars*.9) - y(d[1]); })
             .attr('fill', barColor)
             .on("mouseover", mouseover)// mouseover is defined bebajo.
             .on("mouseout", mouseout);// mouseout is defined bebajo.
@@ -113,16 +120,25 @@ D3Graphics.Dashboard.render = function (fData) {
 
     // function to handle pieChart.
     function pieChart(pD) {
+        var containerEl = document.getElementById(D3Graphics.Dashboard.vars.containerPie.replace('#', ''));
         var pC = {}, pieDim = { w: 250, h: 250 };
         pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
 
+        var width = containerEl.clientWidth;
+        //var widthPie = width > 400 ? width / 4 : width;
+        var widthPie = width / 2;
+        var heightPie = widthPie;
+        var radius = Math.min(widthPie, heightPie) / 2;
+
         // create svg for pie chart.
-        var piesvg = d3.select(D3Graphics.Dashboard.vars.container).append("svg")
-            .attr("width", pieDim.w).attr("height", pieDim.h).append("g")
-            .attr("transform", "translate(" + pieDim.w / 2 + "," + pieDim.h / 2 + ")");
+        var piesvg = d3.select(D3Graphics.Dashboard.vars.containerPie).append("svg")
+            .attr("width", widthPie).attr("height", heightPie).append("g")
+            //.attr("transform", "translate(" + pieDim.w / 2 + "," + pieDim.h / 2 + ")");
+            .attr("transform", "translate(" + radius + "," + radius +")");
 
         // create function to draw the arcs of the pie slices.
-        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
+        //var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
+        var arc = d3.svg.arc().outerRadius(radius).innerRadius(0);
 
         // create a function to compute the pie slice angles.
         var pie = d3.layout.pie().sort(null).value(function (d) { return d.freq; });
@@ -167,7 +183,7 @@ D3Graphics.Dashboard.render = function (fData) {
         var leg = {};
 
         // create table for legend.
-        var legend = d3.select(D3Graphics.Dashboard.vars.container).append("table").attr('class', 'legend');
+        var legend = d3.select(D3Graphics.Dashboard.vars.containerPie).append("table").attr('class', 'legend');
 
         // create one row per segment.
         var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
