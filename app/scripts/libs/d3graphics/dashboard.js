@@ -8,22 +8,25 @@ D3Graphics.Dashboard.vars = {
 
 D3Graphics.Dashboard.render = function (fData) {
     var barColor = 'steelblue';
-    function segColor(c) { return { bajo: "#807dba", normal: "#e08214", alta: "#41ab5d" }[c]; }
-
-    // compute total for each state.
-    //fData.forEach(function (d) { d.total = d.freq.bajo + d.freq.normal + d.freq.alta; });
+    function segColor(c) { return { bajo: "#807dba", normal: "#41ab5d", alta: "#e08214" }[c]; }
 
     // function to handle histogram.
     function histoGram(fD) {
-        var hG = {}, hGDim = { t: 60, r: 0, b: 30, l: 0 };
-        hGDim.w = 500 - hGDim.l - hGDim.r,
-            hGDim.h = 300 - hGDim.t - hGDim.b;
-
+        var containerEl = document.getElementById(D3Graphics.Dashboard.vars.container.replace('#', ''));
+        var hG = {}, hGDim = { t: 60, r: 10, b: 30, l: 0 };
+        hGDim.w = 500 - hGDim.l - hGDim.r;
+        hGDim.h = 300 - hGDim.t - hGDim.b;
+        width = containerEl.clientWidth;
+        height = width * 0.4;
         //create svg for histogram.
         var hGsvg = d3.select(D3Graphics.Dashboard.vars.container).append("svg")
-            .attr("width", hGDim.w + hGDim.l + hGDim.r)
-            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
-            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+            //.attr("width", hGDim.w + hGDim.l + hGDim.r)
+            .attr("width", width / 2)
+
+            //.attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
+            .attr("height", height).append("g")
+            //.attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+            .attr("transform", "translate(0,0)");
 
         // create function for x-axis mapping.
         var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
@@ -35,8 +38,20 @@ D3Graphics.Dashboard.render = function (fData) {
             .call(d3.svg.axis().scale(x).orient("bottom"));
 
         // Create function for y-axis map.
-        var y = d3.scale.linear().range([hGDim.h, 0])
+        var y = d3.scale.linear().range([hGDim.h + 20, 0])
             .domain([0, d3.max(fD, function (d) { return d[1]; })]);
+
+        var yAxisLeft = d3.svg.axis().scale(y).ticks(8).orient("left");
+
+        hGsvg.append("g")
+            .attr("class", "y axis ")
+            .attr("transform", "translate(30,0)")
+            .call(yAxisLeft)
+            .append("text")
+            .attr("y", 6)
+            .attr("dy", "-1em")
+            .style("text-anchor", "end")
+            .text("Precipitación mt2");
 
         // Create bars for histogram to contain rectangles and freq labels.
         var bars = hGsvg.selectAll(".bar").data(fD).enter()
@@ -169,8 +184,8 @@ D3Graphics.Dashboard.render = function (fData) {
         tr.append("td").text(function (d) { return d.type; });
 
         // create the third column for each segment.
-        tr.append("td").attr("class", 'legendFreq')
-            .text(function (d) { return d3.format(",")(d.freq); });
+        /*tr.append("td").attr("class", 'legendFreq')
+            .text(function (d) { return d3.format(",")(d.freq); });*/
 
         // create the fourth column for each segment.
         tr.append("td").attr("class", 'legendPerc')
@@ -182,7 +197,7 @@ D3Graphics.Dashboard.render = function (fData) {
             var l = legend.select("tbody").selectAll("tr").data(nD);
 
             // update the frequencies.
-            l.select(".legendFreq").text(function (d) { return d3.format(",")(d.freq); });
+            //l.select(".legendFreq").text(function (d) { return d3.format(",")(d.freq); });
 
             // update the percentage column.
             l.select(".legendPerc").text(function (d) { return getLegend(d, nD); });

@@ -6,7 +6,7 @@
             "normal": 20,
             "alta": 50
         },
-        "total": 50
+        "total": 20
     },
     {
         "State": "Septiembre",
@@ -15,7 +15,7 @@
             "normal": 15,
             "alta": 75
         },
-        "total": 50
+        "total": 10
     },
     {
         "State": "Octubre",
@@ -24,7 +24,7 @@
             "normal": 8,
             "alta": 80
         },
-        "total": 50
+        "total": 5
     },
     {
         "State": "Noviembre",
@@ -33,7 +33,7 @@
             "normal": 20,
             "alta": 65
         },
-        "total": 50
+        "total": 40
     },
     {
         "State": "Enero",
@@ -42,7 +42,7 @@
             "normal": 11,
             "alta": 29
         },
-        "total": 50
+        "total": 24
     },
     {
         "State": "Febrero",
@@ -51,6 +51,6 @@
             "normal": 25,
             "alta": 20
         },
-        "total": 50
+        "total": 29
     }
 ]
