@@ -438,37 +438,38 @@ text.active {
   font: 10px sans-serif;
 }
 
-#charDashboard .legend tr {
+#charPie .legend tr {
   border-bottom: 1px solid grey;
 }
 
-#charDashboard .legend tr:first-child {
+#charPie .legend tr:first-child {
   border-top: 1px solid grey;
 }
 
-#charDashboard .axis path, .axis line {
+#charPie .axis path, .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-#charDashboard .x.axis path {
+#charPie .x.axis path {
   display: none;
 }
 
-#charDashboard .legend {
+#charPie .legend {
   margin-bottom: 76px;
   display: inline-block;
   border-collapse: collapse;
   border-spacing: 0px;
+  padding: 20px;
 }
 
-#charDashboard .legend td {
+#charPie .legend td {
   padding: 4px 5px;
   vertical-align: bottom;
 }
 
-#charDashboard .legendFreq, .legendPerc {
+#charPie .legendFreq, .legendPerc {
   align: right;
   width: 50px;
 }
