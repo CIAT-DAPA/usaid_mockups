@@ -173,7 +173,19 @@ D3Graphics.Line.render = function (data) {
     // Compute the minimum and maximum date, and the maximum price.
     x.domain([data[0].date, data[data.length - 1].date]);
     // hacky hacky hacky :(
-    y.domain([0, d3.max(data, function (d) { return d.value; }) + 700]);
+    y.domain([0, d3.max(data, function (d) { return d.value; }) + 10]);
+
+    var yAxisLeft = d3.svg.axis().scale(y.range([height,0])).ticks(8).orient("left");
+
+    svg.append("g")
+        .attr("class", "y axis ")
+        .attr("transform", "translate(30,0)")
+        .call(yAxisLeft)
+        .append("text")
+        .attr("y", 6)
+        .attr("dy", "-1em")
+        .style("text-anchor", "end")
+        .text("Precipitación mt2");
 
     svg.append('g')
         .attr('class', 'lineChart--xAxisTicks')

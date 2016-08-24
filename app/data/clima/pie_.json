@@ -3,53 +3,52 @@
       {
         "date": "2004-01-01",
         "label": "Niña",
-        "value": 10
+        "value": 950
       },
       {
         "date": "2005-01-01",
-        "label": "Niño",                                           
-
-        "value": 0
+        "label": "Niño",
+        "value": 1000
       },
       {
         "date": "2006-01-01",
         "label": "Niña",
-        "value": 46
+        "value": 700
       },
       {
         "date": "2007-01-01",
         "label": "Niña",
-        "value": 0
+        "value": 534
       },
       {
         "date": "2008-01-01",
         "label": "Niño",
-        "value": 6.1
+        "value": 1423
       },
       {
         "date": "2009-01-01",
         "label": "Niño",
-        "value": 0.7
+        "value": 1222
       },
       {
         "date": "2010-01-01",
         "label": "Niña",
-        "value": 0
+        "value": 948
       },
       {
         "date": "2011-01-01",
         "label": "Niño",
-        "value": 0
+        "value": 1938
       },
       {
         "date": "2012-01-01",
         "label": "Niño",
-        "value": 20
+        "value": 1245
       },
       {
         "date": "2013-01-01",
         "label": "Niña",
-        "value": 15
+        "value": 888
       }
     ],
     "pieChart": [
@@ -57,19 +56,19 @@
         "color": "red",
         "description": "Alta",
         "title": "alta",
-        "value": 0.33
+        "value": 0.50
       },
        {
         "color": "green",
         "description": "Normal",
         "title": "normal",
-        "value": 0.33
+        "value": 0.30
       },
       {
         "color": "blue",
         "description": "Baja",
         "title": "baja",
-        "value": 0.34
+        "value": 0.20
       }
     ]
   }
