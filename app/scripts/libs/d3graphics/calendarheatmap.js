@@ -14,10 +14,11 @@ D3Graphics.CalendarHeatmap.tools = {
 }
 
 D3Graphics.CalendarHeatmap.render = function (items) {
+    var containerEl = document.getElementById(D3Graphics.CalendarHeatmap.vars.container.replace('#', ''));
 
-    var width = 960,
-        height = 750,
-        cellSize = 25; // cell size
+    var width = containerEl.clientWidth,
+        height = width * .4,
+        cellSize = 17; // cell size
 
     var no_months_in_a_row = Math.floor(width / (cellSize * 7 + 50));
     var shift_up = cellSize * 3;
@@ -34,7 +35,7 @@ D3Graphics.CalendarHeatmap.render = function (items) {
 
     var color = d3.scale.quantize()
         //.domain([5776.1145, 6417.801])
-        .domain([5776.1145, 7100.1])
+        .domain([2000, 8000])
         .range(d3.range(11).map(function (d) { return "q" + d + "-11"; }));
 
     var svg = d3.select(D3Graphics.CalendarHeatmap.vars.container).selectAll("svg")
@@ -43,7 +44,7 @@ D3Graphics.CalendarHeatmap.render = function (items) {
         .attr("width", width)
         .attr("height", height)
         .attr("class", "RdYlGn")
-        .append("g")
+        .append("g");
 
     var rect = svg.selectAll(".day")
         .data(function (d) {

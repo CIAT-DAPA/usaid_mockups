@@ -14,6 +14,7 @@ angular.module('usaidMockupsApp')
     $scope.variedades=[];
     cultivoFactory.listar($scope.tipoCultivo).then(function (data) {
 
+      
       var variedades = [];
       for (var i = 0; i < data.length; i++) {        
         if (variedades.indexOf(data[i].Variedad) < 0){
