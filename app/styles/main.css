@@ -98,16 +98,8 @@ body {
 
 /**** Calendar Heatmap ****/
 
-.background {
-  fill: #eee;
-}
-
-line {
-  stroke: #fff;
-}
-
-text.active {
-  fill: red;
+body {
+  shape-rendering: crispEdges;
 }
 
 .day {
@@ -117,14 +109,9 @@ text.active {
 
 .month {
   fill: none;
-  stroke: #fff;
-  stroke-width: 4px;
+  stroke: #000;
+  stroke-width: 2px;
 }
-
-.year-title {
-  font-size: 1.5em;
-}
-
 
 /* color ranges */
 

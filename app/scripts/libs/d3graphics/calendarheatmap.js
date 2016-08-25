@@ -2,41 +2,31 @@ var D3Graphics = D3Graphics || {};
 
 D3Graphics.CalendarHeatmap = D3Graphics.CalendarHeatmap || {};
 
-D3Graphics.CalendarHeatmap.vars = { container: null };
+D3Graphics.CalendarHeatmap.vars = {
+    container: '#chartHeatmap'
+};
 
 D3Graphics.CalendarHeatmap.tools = {
-    monthTitle: function (t0) {
-        return t0.toLocaleString("en-us", { month: "long" });
-    },
-    yearTitle: function (t0) {
-        return t0.toString().split(" ")[3];
-    }
+
 }
 
 D3Graphics.CalendarHeatmap.render = function (items) {
     var containerEl = document.getElementById(D3Graphics.CalendarHeatmap.vars.container.replace('#', ''));
 
-    var width = containerEl.clientWidth,
-        height = width * .4,
+    var width = 960,
+        height = 136,
         cellSize = 17; // cell size
-
-    var no_months_in_a_row = Math.floor(width / (cellSize * 7 + 50));
-    var shift_up = cellSize * 3;
-
-    var day = d3.time.format("%w"), // day of the week
-        day_of_month = d3.time.format("%e"), // day of the month
-        day_of_year = d3.time.format("%j"),
-        week = d3.time.format("%U"), // week number of the year
-        month = d3.time.format("%m"), // month number
-        year = d3.time.format("%Y"),
-        percent = d3.format(".1%"),
-        round = d3.format(",.0f"),
-        format = d3.time.format("%Y-%m-%d");
 
     var color = d3.scale.quantize()
         //.domain([5776.1145, 6417.801])
-        .domain([2000, 8000])
+        .domain([2000, 12000])
         .range(d3.range(11).map(function (d) { return "q" + d + "-11"; }));
+
+
+    var percent = d3.format(".1%"),
+        format = d3.time.format("%Y-%m-%d"),
+        round = d3.format(",.0f");
+
 
     var svg = d3.select(D3Graphics.CalendarHeatmap.vars.container).selectAll("svg")
         .data(d3.range(2016, 2017))
@@ -44,56 +34,44 @@ D3Graphics.CalendarHeatmap.render = function (items) {
         .attr("width", width)
         .attr("height", height)
         .attr("class", "RdYlGn")
-        .append("g");
+        .append("g")
+        .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
+
+    svg.append("text")
+        .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+        .style("text-anchor", "middle")
+        .text(function (d) { return d; });
 
     var rect = svg.selectAll(".day")
-        .data(function (d) {
-            return d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1));
-        })
+        .data(function (d) { return d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
         .enter().append("rect")
         .attr("class", "day")
         .attr("width", cellSize)
         .attr("height", cellSize)
-        .attr("x", function (d) {
-            var month_padding = 1.2 * cellSize * 7 * ((month(d) - 1) % (no_months_in_a_row));
-            return day(d) * cellSize + month_padding;
-        })
-        .attr("y", function (d) {
-            var week_diff = week(d) - week(new Date(year(d), month(d) - 1, 1));
-            var row_level = Math.ceil(month(d) / (no_months_in_a_row));
-            return (week_diff * cellSize) + row_level * cellSize * 8 - cellSize / 2 - shift_up;
-        })
+        .attr("x", function (d) { return d3.time.weekOfYear(d) * cellSize; })
+        .attr("y", function (d) { return d.getDay() * cellSize; })
         .datum(format);
 
-    var month_titles = svg.selectAll(".month-title")  // Jan, Feb, Mar and the whatnot
-        .data(function (d) {
-            return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1));
-        })
-        .enter().append("text")
-        .text(D3Graphics.CalendarHeatmap.tools.monthTitle)
-        .attr("x", function (d, i) {
-            var month_padding = 1.2 * cellSize * 7 * ((month(d) - 1) % (no_months_in_a_row));
-            return month_padding;
-        })
-        .attr("y", function (d, i) {
-            var week_diff = week(d) - week(new Date(year(d), month(d) - 1, 1));
-            var row_level = Math.ceil(month(d) / (no_months_in_a_row));
-            return (week_diff * cellSize) + row_level * cellSize * 8 - cellSize - shift_up;
-        })
-        .attr("class", "month-title")
-        .attr("d", D3Graphics.CalendarHeatmap.tools.monthTitle);
+    rect.append("title")
+        .text(function (d) { return d; });
 
-    var year_titles = svg.selectAll(".year-title")  // Jan, Feb, Mar and the whatnot
-        .data(function (d) {
-            return d3.time.years(new Date(d, 0, 1), new Date(d + 1, 0, 1));
-        })
-        .enter().append("text")
-        .text(D3Graphics.CalendarHeatmap.tools.yearTitle)
-        .attr("x", function (d, i) { return width / 2 - 100; })
-        .attr("y", function (d, i) { return cellSize * 5.5 - shift_up; })
-        .attr("class", "year-title")
-        .attr("d", D3Graphics.CalendarHeatmap.tools.yearTitle);
+    svg.selectAll(".month")
+        .data(function (d) { return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+        .enter().append("path")
+        .attr("class", "month")
+        .attr("d", monthPath);
 
+    
+    var data = d3.nest()
+        .key(function (d) { return d.Fecha; })
+        .rollup(function (d) { return d[0].RendimientoPromedio; })
+        .map(items);
+
+    rect.filter(function (d) { return d in data; })
+        .attr("class", function (d) { return "day " + color(data[d]); })
+        /*.select("title")
+        .text(function (d) { return d + ": " + round(data[d]); });*/
+    
 
     //  Tooltip Object
     var tooltip = d3.select("body")
@@ -103,18 +81,6 @@ D3Graphics.CalendarHeatmap.render = function (items) {
         .style("visibility", "hidden")
         .text("a simple tooltip");
 
-    var data = d3.nest()
-        .key(function (d) { return d.Fecha; })
-        //.rollup(function (d) { return (d[0].Close - d[0].Open) / d[0].Open; })
-        .rollup(function (d) { return d[0].RendimientoPromedio; })
-        .map(items);
-
-    rect.filter(function (d) { return d in data; })
-        .attr("class", function (d) { return "day " + color(data[d]); })
-        .select("title")
-        .text(function (d) { return d + ": " + round(data[d]); });
-
-    //  Tooltip
     rect.on("mouseover", function (d) {
         tooltip.style("visibility", "visible");
         var value = ((data[d] !== undefined) ? round(data[d]) : round(0)) + ' Kg/ha';
@@ -127,12 +93,15 @@ D3Graphics.CalendarHeatmap.render = function (items) {
             .style("left", (d3.event.pageX) + 30 + "px")
             .style("top", (d3.event.pageY) + "px");
     });
-    rect.on("mouseout", function (d) {
-        tooltip.transition()
-            .duration(500)
-            .style("opacity", 0);
-        var $tooltip = $("#tooltip");
-        $tooltip.empty();
-    });
 
+    function monthPath(t0) {
+        var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
+            d0 = t0.getDay(), w0 = d3.time.weekOfYear(t0),
+            d1 = t1.getDay(), w1 = d3.time.weekOfYear(t1);
+        return "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
+            + "H" + w0 * cellSize + "V" + 7 * cellSize
+            + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
+            + "H" + (w1 + 1) * cellSize + "V" + 0
+            + "H" + (w0 + 1) * cellSize + "Z";
+    }
 }

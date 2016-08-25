@@ -48,5 +48,14 @@ angular.module('usaidMockupsApp')
       return items;
     }
 
+    dataFactory.listarCalendar = function (cultivo) {
+      
+      var items = $http.get(config.data_arroz_calendar).then(function(response){        
+        return CSV2Json.parse(response.data);
+      });      
+      
+      return items;
+    }
+
     return dataFactory;
   }]);

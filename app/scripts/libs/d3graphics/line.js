@@ -179,7 +179,7 @@ D3Graphics.Line.render = function (data) {
 
     svg.append("g")
         .attr("class", "y axis ")
-        .attr("transform", "translate(30,0)")
+        .attr("transform", "translate(35,0)")
         .call(yAxisLeft)
         .append("text")
         .attr("y", 6)
