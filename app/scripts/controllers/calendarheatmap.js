@@ -18,7 +18,7 @@ angular.module('usaidMockupsApp')
       var variedades = [];
       for (var i = 0; i < data.length; i++) {        
         if (variedades.indexOf(data[i].Variedad) < 0){
-          $("#chartHeatmap").html($("#chartHeatmap").html() +'<h3>' + data[i].Variedad + '</h3><div id="chartHeatmap' + data[i].Variedad  + '" class="clearfix"></div>');
+          $("#chartHeatmap").html($("#chartHeatmap").html() +'<h3>Variedad ' + data[i].Variedad + '</h3><div id="chartHeatmap' + data[i].Variedad  + '" class="clearfix"></div>');
           variedades.push(data[i].Variedad);
         }
           
