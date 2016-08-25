@@ -41,8 +41,8 @@ D3Graphics.Pie.tools = {
     console.log(bBox);
     console.log(element);
 
-    //var y=bBox.height + bBox.y;
-    var y= height - (bBox.height / 2) + bBox.y  ;
+    var y=bBox.height + bBox.y + 50;
+    //var y= height - (bBox.height / 2) + bBox.y  ;
 
     if ((bBox.x + bBox.width / 2) > 0) {
       infoContainer = detailedInfo.append('g')

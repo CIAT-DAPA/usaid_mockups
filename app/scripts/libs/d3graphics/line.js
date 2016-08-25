@@ -173,7 +173,7 @@ D3Graphics.Line.render = function (data) {
     // Compute the minimum and maximum date, and the maximum price.
     x.domain([data[0].date, data[data.length - 1].date]);
     // hacky hacky hacky :(
-    y.domain([0, d3.max(data, function (d) { return d.value; }) + 10]);
+    y.domain([0, d3.max(data, function (d) { return d.value; }) + 50]);
 
     var yAxisLeft = d3.svg.axis().scale(y.range([height,0])).ticks(8).orient("left");
 
