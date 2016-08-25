@@ -55,8 +55,8 @@
     "pieChart": [
       {
         "color": "red",
-        "description": "Alta",
-        "title": "alta",
+        "description": "Por debajo de lo normal",
+        "title": "baja",
         "value": 0.33
       },
        {
@@ -67,8 +67,8 @@
       },
       {
         "color": "blue",
-        "description": "Baja",
-        "title": "baja",
+        "description": "Por encima de lo normal",
+        "title": "alta",
         "value": 0.34
       }
     ]
