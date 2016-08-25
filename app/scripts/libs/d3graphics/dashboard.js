@@ -9,7 +9,7 @@ D3Graphics.Dashboard.vars = {
 
 D3Graphics.Dashboard.render = function (fData) {
     var barColor = 'steelblue';
-    function segColor(c) { return { bajo: "#6bb7c7", normal: "#92d892", alta: "#d79d91" }[c]; }
+    function segColor(c) { return { bajo: "#d79d91", normal: "#92d892", alta: "#6bb7c7" }[c]; }
 
     // function to handle histogram.
     function histoGram(fD) {
@@ -24,23 +24,17 @@ D3Graphics.Dashboard.render = function (fData) {
 
         //create svg for histogram.
         var hGsvg = d3.select(D3Graphics.Dashboard.vars.containerBars).append("svg")
-            //.attr("width", hGDim.w + hGDim.l + hGDim.r)
             .attr("width", widthBars)
-
-            //.attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
             .attr("height", heightBars).append("g")
-            //.attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
             .attr("transform", "translate(0,0)");
 
         // create function for x-axis mapping.
-        //var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
-        var x = d3.scale.ordinal().rangeRoundBands([30, widthBars-30], 0.1)
+        var x = d3.scale.ordinal().rangeRoundBands([30, widthBars - 30], 0.1)
             .domain(fD.map(function (d) { return d[0]; }));
-        
-       
+
+
         // Add x-axis to the histogram svg.
         hGsvg.append("g").attr("class", "x axis")
-            //.attr("transform", "translate(0," + hGDim.h + ")")
             .attr("transform", "translate(0," + (heightBars * .9) + ")")
             .call(d3.svg.axis().scale(x).orient("bottom"));
 
@@ -69,7 +63,7 @@ D3Graphics.Dashboard.render = function (fData) {
             .attr("x", function (d) { return x(d[0]); })
             .attr("y", function (d) { return y(d[1]); })
             .attr("width", x.rangeBand())
-            .attr("height", function (d) { return (heightBars*.9) - y(d[1]); })
+            .attr("height", function (d) { return (heightBars * .9) - y(d[1]); })
             .attr('fill', barColor)
             .on("mouseover", mouseover)// mouseover is defined bebajo.
             .on("mouseout", mouseout);// mouseout is defined bebajo.
@@ -134,11 +128,9 @@ D3Graphics.Dashboard.render = function (fData) {
         // create svg for pie chart.
         var piesvg = d3.select(D3Graphics.Dashboard.vars.containerPie).append("svg")
             .attr("width", widthPie).attr("height", heightPie).append("g")
-            //.attr("transform", "translate(" + pieDim.w / 2 + "," + pieDim.h / 2 + ")");
-            .attr("transform", "translate(" + radius + "," + radius +")");
+            .attr("transform", "translate(" + radius + "," + radius + ")");
 
         // create function to draw the arcs of the pie slices.
-        //var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
         var arc = d3.svg.arc().outerRadius(radius).innerRadius(0);
 
         // create a function to compute the pie slice angles.
@@ -178,16 +170,11 @@ D3Graphics.Dashboard.render = function (fData) {
         tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("circle")
             .attr("cx", '8').attr("cy", '8').attr("r", '8')
             .attr("fill", function (d) { return segColor(d.type); });
-        /*tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
-            .attr("width", '16').attr("height", '16')
-            .attr("fill", function (d) { return segColor(d.type); });*/
 
         // create the second column for each segment.
-        tr.append("td").text(function (d) { return d.type; });
+        tr.append("td").text(function (d) { return d.type == 'bajo' ? 'Por debajo de lo normal' : (d.type == 'normal' ? 'normal' : 'Por encima de lo normal'); });
 
         // create the third column for each segment.
-        /*tr.append("td").attr("class", 'legendFreq')
-            .text(function (d) { return d3.format(",")(d.freq); });*/
 
         // create the fourth column for each segment.
         tr.append("td").attr("class", 'legendPerc')
@@ -197,9 +184,6 @@ D3Graphics.Dashboard.render = function (fData) {
         leg.update = function (nD) {
             // update the data attached to the row elements.
             var l = legend.select("tbody").selectAll("tr").data(nD);
-
-            // update the frequencies.
-            //l.select(".legendFreq").text(function (d) { return d3.format(",")(d.freq); });
 
             // update the percentage column.
             l.select(".legendPerc").text(function (d) { return getLegend(d, nD); });
@@ -212,16 +196,16 @@ D3Graphics.Dashboard.render = function (fData) {
         return leg;
     }
 
-    // calculate total frequency by segment for all state.
-    //var tF = ['bajo', 'normal', 'alta'].map(function (d) {
-    var tF = ['bajo', 'normal', 'alta'].map(function (d) {
-        return { type: d, freq: d3.sum(fData.map(function (t) { return t.freq[d]; })) };
-    });
+
 
     // calculate total frequency by state for all segment.
     var sF = fData.map(function (d) { return [d.State, d.total]; });
 
+    var st = fData.filter(function (s) { return s.State == fData[0].State; })[0],
+        tf = d3.keys(st.freq).map(function (s) { return { type: s, freq: st.freq[s] }; });
+
+
     var hG = histoGram(sF), // create the histogram.
-        pC = pieChart(tF), // create the pie-chart.
-        leg = legend(tF);  // create the legend.
+        pC = pieChart(tf), // create the pie-chart.
+        leg = legend(tf);  // create the legend.
 }
