@@ -46,7 +46,7 @@ D3Graphics.Dashboard.render = function (fData) {
 
         hGsvg.append("g")
             .attr("class", "y axis ")
-            .attr("transform", "translate(30,0)")
+            .attr("transform", "translate(35,0)")
             .call(yAxisLeft)
             .append("text")
             .attr("y", 6)
@@ -172,7 +172,7 @@ D3Graphics.Dashboard.render = function (fData) {
             .attr("fill", function (d) { return segColor(d.type); });
 
         // create the second column for each segment.
-        tr.append("td").text(function (d) { return d.type == 'bajo' ? 'Por debajo de lo normal' : (d.type == 'normal' ? 'normal' : 'Por encima de lo normal'); });
+        tr.append("td").text(function (d) { return d.type == 'bajo' ? 'Debajo de lo normal' : (d.type == 'normal' ? 'Normal' : 'Arriba de lo normal'); });
 
         // create the third column for each segment.
 
