@@ -21,7 +21,7 @@ D3Graphics.Barchart.render = function (data) {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var x = d3.scale.ordinal()
-        .rangeRoundBands([0, width], .1);
+        .rangeRoundBands([0, width], .5);
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -40,8 +40,8 @@ D3Graphics.Barchart.render = function (data) {
         .attr("transform", "rotate(45)")
         .style("text-anchor", "start");;
 
-    var y = d3.scale.linear().domain([0, 8000]).range([height, 0]),
-        yDesviacion = d3.scale.linear().domain([0, 8000]).range([0, height]);
+    var y = d3.scale.linear().domain([0, 12000]).range([height, 0]),
+        yDesviacion = d3.scale.linear().domain([0, 12000]).range([0, height]);
 
 
     // create left yAxis
@@ -80,7 +80,7 @@ D3Graphics.Barchart.render = function (data) {
                 .attr("data-legend", function (d) { return d.Variedad })
                 .attr("class", "bar" + variedad.length)
                 .attr("x", function (d) { return x(d.Fecha) + rango; })
-                .attr("width", (x.rangeBand() / 2) * .9)
+                .attr("width", (x.rangeBand() * .4) )
                 .attr("y", function (d) { return y(d.RendimientoPromedio) - (yDesviacion(d.RendimientoDesviacion)); })
                 .attr("height", function (d, i, j) { return yDesviacion(d.RendimientoDesviacion) * 2; })
                 .on("mouseover", function (d) {

@@ -232,6 +232,9 @@ text.active {
   fill: orange;
 }
 
+.bar3 {
+  fill: forestgreen;
+}
 .x.axis path {
   display: none;
 }

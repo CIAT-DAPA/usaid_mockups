@@ -2,74 +2,83 @@
     "lineChart": [
       {
         "date": "2004-01-01",
-        "label": "Niña",
-        "value": 10
+        "label": "Niño",
+        "value": 34
       },
       {
         "date": "2005-01-01",
-        "label": "Niño",                                           
-
-        "value": 0
+        "label": "Neutro",
+        "value": 51
       },
       {
         "date": "2006-01-01",
-        "label": "Niña",
-        "value": 46
+        "label": "Niño",
+        "value": 51
       },
       {
         "date": "2007-01-01",
         "label": "Niña",
-        "value": 0
+        "value": 70
       },
       {
         "date": "2008-01-01",
-        "label": "Niño",
-        "value": 6.1
+        "label": "Niña",
+        "value": 216
       },
       {
         "date": "2009-01-01",
         "label": "Niño",
-        "value": 0.7
+        "value": 108
       },
       {
         "date": "2010-01-01",
         "label": "Niña",
-        "value": 0
+        "value": 37
       },
       {
         "date": "2011-01-01",
-        "label": "Niño",
-        "value": 0
+        "label": "Niña",
+        "value": 59
       },
       {
         "date": "2012-01-01",
-        "label": "Niño",
-        "value": 20
+        "label": "Neutro",
+        "value": 72
       },
       {
         "date": "2013-01-01",
-        "label": "Niña",
-        "value": 15
+        "label": "Neutro",
+        "value": 93
+      },
+      {
+        "date": "2014-01-01",
+        "label": "Neutro",
+        "value": 84
+      },
+      {
+        "date": "2015-01-01",
+        "label": "Niño",
+        "value": 8.6
       }
     ],
     "pieChart": [
       {
-        "color": "red",
-        "description": "Por debajo de lo normal",
-        "title": "baja",
-        "value": 0.33
+        "color": "blue",
+        "description": "Arriba de lo Normal",
+        "title": "alta",
+        "value": 0.13
       },
        {
         "color": "green",
         "description": "Normal",
         "title": "normal",
-        "value": 0.33
+        "value": 0.27
       },
       {
-        "color": "blue",
-        "description": "Por encima de lo normal",
-        "title": "alta",
-        "value": 0.34
+        "color": "red",
+        "description": "Debajo de lo Normal",
+        "title": "baja",
+        "value": 0.6
       }
     ]
   }
