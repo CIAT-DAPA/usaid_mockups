@@ -14,8 +14,8 @@ d3.legend = function(g) {
         lb = g.selectAll(".legend-box").data([true]),
         li = g.selectAll(".legend-items").data([true])
 
-    lb.enter().append("rect").classed("legend-box",true)
-    li.enter().append("g").classed("legend-items",true)
+    lb.enter().append("rect").classed("legend-box",true);
+    li.enter().append("g").classed("legend-items",true);
 
     svg.selectAll("[data-legend]").each(function() {
         var self = d3.select(this)

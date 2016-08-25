@@ -7,8 +7,10 @@ D3Graphics.Barchart.vars = {
 }
 
 D3Graphics.Barchart.render = function (data) {
+    var containerEl = document.getElementById(D3Graphics.Barchart.vars.container.replace('#', ''));
+
     var margin = { top: 80, right: 80, bottom: 80, left: 80 },
-        width = 850 - margin.left - margin.right,
+        width = containerEl.clientWidth - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
 
     var svg = d3.select(D3Graphics.Barchart.vars.container).append("svg")
@@ -30,10 +32,16 @@ D3Graphics.Barchart.render = function (data) {
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+        .attr("y", 6)
+        .attr("x", 15)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(45)")
+        .style("text-anchor", "start");;
 
-    var y = d3.scale.linear().domain([0, 8000]).range([height,0]),
-        yDesviacion = d3.scale.linear().domain([0, 8000]).range([0,height]);
+    var y = d3.scale.linear().domain([0, 8000]).range([height, 0]),
+        yDesviacion = d3.scale.linear().domain([0, 8000]).range([0, height]);
 
 
     // create left yAxis
@@ -50,8 +58,8 @@ D3Graphics.Barchart.render = function (data) {
         .text("Rend. Kg/ha");
 
     // Tooltip
-    var tooltip = d3.select(D3Graphics.Barchart.vars.container).append("div")	
-        .attr("class", "tooltip")				
+    var tooltip = d3.select(D3Graphics.Barchart.vars.container).append("div")
+        .attr("class", "tooltip")
         .style("opacity", 0);
 
     var bars = null;
@@ -59,7 +67,7 @@ D3Graphics.Barchart.render = function (data) {
     var format = d3.format(",.0f");
 
     var variedad = [];
-    var rango = 0;    
+    var rango = 0;
     for (var i = 0; i < data.length; i++) {
         if (variedad.indexOf(data[i].Variedad) < 0) {
             variedad.push(data[i].Variedad);
@@ -73,7 +81,7 @@ D3Graphics.Barchart.render = function (data) {
                 .attr("class", "bar" + variedad.length)
                 .attr("x", function (d) { return x(d.Fecha) + rango; })
                 .attr("width", (x.rangeBand() / 2) * .9)
-                .attr("y", function (d) { return y(d.RendimientoPromedio) -  (yDesviacion(d.RendimientoDesviacion) ); })
+                .attr("y", function (d) { return y(d.RendimientoPromedio) - (yDesviacion(d.RendimientoDesviacion)); })
                 .attr("height", function (d, i, j) { return yDesviacion(d.RendimientoDesviacion) * 2; })
                 .on("mouseover", function (d) {
                     var r = parseFloat(d.RendimientoDesviacion);
@@ -82,10 +90,10 @@ D3Graphics.Barchart.render = function (data) {
                     tooltip.transition()
                         .duration(200)
                         .style("opacity", .9)
+                        .style("padding", 5)
                         .style("background", 'lightsteelblue');
-                    tooltip.html('[' + format(lower) + '-' + format(upper) + ']<br />' + 
-                                'Rendimiento promedio: ' + format( d.RendimientoPromedio) + 'Kg/ha <br />' + 
-                                'Desviación: ' + format( d.RendimientoDesviacion) + 'Kg/ha')
+                    tooltip.html('Intervalo de rendimiento: <br />[' + format(lower) + ' Kg/ha - ' + format(upper) + ' Kg/ha]<br />' +
+                        'Rendimiento promedio: <br />' + format(d.RendimientoPromedio) + ' Kg/ha')
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px");
                 })
@@ -99,9 +107,28 @@ D3Graphics.Barchart.render = function (data) {
         }
     }
 
+    var yAxisTicks = d3.svg.axis().scale(y)
+            .ticks(12)
+            .tickSize(width)
+            .tickFormat('')
+            .orient('right');
+        /*xAxisTicks = d3.svg.axis().scale(x)
+            .ticks(16)
+            .tickSize(-height)
+            .tickFormat('');*/
+
+    svg.append('g')
+        .attr('class', 'lineChart--yAxisTicks')
+        .call(yAxisTicks);
+
+     /*svg.append('g')
+        .attr('class', 'lineChart--xAxisTicks')
+        .attr('transform', 'translate(' + ( x.rangeBand()) + ',' + height + ')')
+        .call(xAxisTicks);*/
+
     var legend = svg.append("g")
         .attr("class", "legend")
         .attr("transform", "translate(30,-30)")
-        .style("font-size", "12px")
+        .style("font-size", "15px")
         .call(d3.legend);
 }
