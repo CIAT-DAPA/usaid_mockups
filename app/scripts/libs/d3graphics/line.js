@@ -224,4 +224,13 @@ D3Graphics.Line.render = function (data) {
         .duration(D3Graphics.Line.vars.DURATION)
         .attrTween('d', D3Graphics.Line.tools.tween(data, area));
 
+    // Line Normal
+    svg.append('line')
+        .attr('x1',0)
+        .attr('y1',y(75))
+        .attr('x2',width)
+        .attr('y2',y(75))
+        .attr("stroke-width", 2)
+        .attr("stroke", "red");
+
 }
