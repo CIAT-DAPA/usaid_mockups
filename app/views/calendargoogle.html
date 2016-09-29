@@ -1,9 +1,25 @@
 <h1 class="text-center">{{ tipoCultivo | uppercase }}</h1>
 <h2>Calendar Google</h2>
+
+<table class="table">
+    <tr>
+        <td colspan="{{ variedades.length }}">
+            Selecciona la variedad
+        </td>
+    </tr>
+    <tr>
+        <td ng-repeat="variedad in variedades">
+            <label>
+                <input type="radio" ng-value="variedad" name="variedad" 
+                    ng-model="role"  ng-change='cambiar(variedad)'  ng-init="$index==0?(role=variedad):''; $index==0?cambiar(variedad):'' "  />
+                {{variedad}}
+            </label>
+        </td>
+    </tr>
+</table>
 <div>
     <button id="back" name="back"><</button>
     <button id="forward" name="forward">></button>
-    <label id="currentMonth">May 2013</label>
+    <label id="currentMonth">Septiembre 2016</label>
 </div>
-
 <div id="chart"></div>

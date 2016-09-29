@@ -59,7 +59,7 @@ D3Graphics.CalendarGoogle.tools = {
         var daysArray = [];
 
         var firstDayOfTheWeek = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), 1).getDay();
-        var daysInPreviousMonth = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), 0).getDate();        
+        var daysInPreviousMonth = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), 0).getDate();
         // Lets say the first week of the current month is a Wednesday. Then we need to get 3 days from 
         // the end of the previous month. But we can't naively go from 29 - 31. We have to do it properly
         // depending on whether the last month was one that had 31 days, 30 days or 28.
@@ -88,104 +88,69 @@ D3Graphics.CalendarGoogle.tools = {
         var d = date.getDate();
         var m = date.getMonth() + 1;
         var y = date.getFullYear();
-        return '' + y + '-' + (m<=9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
+        return '' + y + '-' + (m <= 9 ? '0' + m : m) + '-' + (d <= 9 ? '0' + d : d);
     },
-    searchInData: function (date,variedad) {
-        for(var i=0; i< D3Graphics.CalendarGoogle.vars.data.length; i++){            
-            if(D3Graphics.CalendarGoogle.vars.data[i].Fecha == date && D3Graphics.CalendarGoogle.vars.data[i].Variedad == variedad){
-                return D3Graphics.CalendarGoogle.vars.data[i].RendimientoPromedio;
-            }
-                
-        }
-        return 0;
-
+    searchInData: function (date) {
+        return D3Graphics.CalendarGoogle.vars.data.filter(function (item) {
+            return item.Fecha == date;
+        });
     },
-    getDataForMonth: function () {                
-        var variedad = [];       
-        for(var i=0; i < D3Graphics.CalendarGoogle.vars.data.length; i++ ){
-            if(variedad.indexOf(D3Graphics.CalendarGoogle.vars.data[i].Variedad) < 0 && D3Graphics.CalendarGoogle.vars.data[i].Variedad != '')
-                variedad.push(D3Graphics.CalendarGoogle.vars.data[i].Variedad);
-        }
+    getDataForMonth: function () {
         var randomData = [];
-        var dailyData = [];
         var firstDayOfTheWeek = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), 1).getDay();
         var daysInPreviousMonth = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), 0).getDate();
-        var total = 0;        
         // Lets say the first week of the current month is a Wednesday. Then we need to get 3 days from 
         // the end of the previous month. But we can't naively go from 29 - 31. We have to do it properly
         // depending on whether the last month was one that had 31 days, 30 days or 28.
         for (var i = 1; i <= firstDayOfTheWeek; i++) {
-            dailyData = [];
-            total = 0;
-            for(var j = 0; j < variedad.length; j++){   
-                var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay()-1, daysInPreviousMonth - firstDayOfTheWeek + i);
-                var value = parseFloat(D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date),variedad[j]));
-                total += value;             
-                dailyData.push(value);
-            }
-            if(total != 0){
-                for(var j = 0; j < dailyData.length; j++){
-                    dailyData[j] = ((dailyData[j] / total) * 100).toFixed(1); 
-                    //dailyData[j] = (dailyData[j]).toFixed(1);
-                }
-            }
+            var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() - 1, daysInPreviousMonth - firstDayOfTheWeek + i);
+            var value = D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date));
             randomData.push(dailyData);
         }
 
         // These are all the days in the current month.
-        
-        var daysInMonth = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() , 0).getDate();
+
+        var daysInMonth = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), 0).getDate();
         for (i = 1; i <= daysInMonth; i++) {
-            dailyData = [];
-            total = 0;
-            for(var j = 0; j < variedad.length; j++){   
-                var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() , i);             
-                var value = parseFloat(D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date),variedad[j]));
-                total += value;             
-                dailyData.push(value);
-            }
-            if(total != 0){
-                for(var j = 0; j < dailyData.length; j++){
-                    dailyData[j] = ((dailyData[j] / total)*100).toFixed(1);
-                    //dailyData[j] = (dailyData[j]).toFixed(1); 
-                }
-                
-            }
+            var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), i);
+            var value = D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date));
             randomData.push(dailyData);
         }
 
         // Depending on how many days we have so far (from previous month and current), we will need
         // to get some days from next month. We can do this naively though, since all months start on
         // the 1st.
-        var daysRequiredFromNextMonth = 35 - randomData.length;        
+        var daysRequiredFromNextMonth = 35 - randomData.length;
         for (i = 1; i <= daysRequiredFromNextMonth; i++) {
-            dailyData = [];
+            var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() + 1, i);
+            var value = D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date));
+            randomData.push(dailyData);
+            /*dailyData = [];
             total = 0;
-            for(var j = 0; j < variedad.length; j++){   
-                var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() + 1, i);
-                var value = parseFloat(D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date),variedad[j]));
-                total += value;             
-                dailyData.push(value);             
-            }
-            if(total != 0){
-                for(var j = 0; j < dailyData.length; j++){
-                    dailyData[j] = ((dailyData[j] / total)*100).toFixed(1);
+            var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() + 1, i);
+            var value = parseFloat(D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date)));
+            total += value;
+            dailyData.push(value);
+            if (total != 0) {
+                for (var j = 0; j < dailyData.length; j++) {
+                    dailyData[j] = ((dailyData[j] / total) * 100).toFixed(1);
                     //dailyData[j] = (dailyData[j]).toFixed(1); 
                 }
             }
-            randomData.push(dailyData);
+            randomData.push(dailyData);*/
         }
-        
         return randomData;
     },
     drawGraphsForMonthlyData: function () {
+
+        /*
         // Get some random data
         var data = D3Graphics.CalendarGoogle.tools.getDataForMonth();
         // Set up variables required to draw a pie chart
         var outerRadius = D3Graphics.CalendarGoogle.tools.cellWidth() / 3;
         var innerRadius = 0;
         var pie = d3.layout.pie();
-        var color = d3.scale.category10();
+        var color = D3Graphics.CalendarGoogle.tools.color;
         var arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
 
         // We need to index and group the pie charts and slices generated so that they can be rendered in
@@ -242,9 +207,9 @@ D3Graphics.CalendarGoogle.tools = {
             .attr("text-anchor", "middle")
             .text(function (d, i) {
                 return d[0].value;
-            });
+            });*/
 
-    },    
+    },
     renderDaysOfMonth: function () {
         // RENDERDAYSOFMONTH
         $('#currentMonth').text(D3Graphics.CalendarGoogle.tools.monthToDisplayAsText() + ' ' + D3Graphics.CalendarGoogle.tools.yearToDisplay());
@@ -274,6 +239,33 @@ D3Graphics.CalendarGoogle.tools = {
             .style("fill", function (d) { return d[1]; });
 
         D3Graphics.CalendarGoogle.tools.drawGraphsForMonthlyData();
+    },
+    drawLegend: function () {
+        var legend = D3Graphics.CalendarGoogle.vars.calendar.selectAll(".legend")
+            .data([0].concat(colorScale.quantiles()), function (d) { return d; });
+
+        legend.enter().append("g")
+            .attr("class", "legend");
+
+        legend.append("rect")
+            .attr("x", function (d, i) { return legendElementWidth * i; })
+            .attr("y", height)
+            .attr("width", legendElementWidth)
+            .attr("height", gridSize / 2)
+            .style("fill", function (d, i) { return colors[i]; });
+
+        legend.append("text")
+            .attr("class", "mono")
+            .text(function (d) { return "≥ " + Math.round(d); })
+            .attr("x", function (d, i) { return legendElementWidth * i; })
+            .attr("y", height + gridSize);
+
+        legend.exit().remove();
+    },
+    color: function () {
+        return d3.scale.quantize()
+            .domain([2000, 12000])
+            .range(d3.range(11).map(function (d) { return "q" + d + "-11"; }));
     }
 }
 
@@ -291,13 +283,15 @@ D3Graphics.CalendarGoogle.controls = {
 }
 
 D3Graphics.CalendarGoogle.render = function (data) {
+    // Clear container
+    $(D3Graphics.CalendarGoogle.vars.container).html('');
     // Controls
     $('#back').click(D3Graphics.CalendarGoogle.controls.displayPreviousMonth);
     $('#forward').click(D3Graphics.CalendarGoogle.controls.displayNextMonth);
 
     // Set data
     D3Graphics.CalendarGoogle.vars.data = data;
-    
+
     // Add the svg element.
     D3Graphics.CalendarGoogle.vars.calendar = d3.select(D3Graphics.CalendarGoogle.vars.container)
         .append("svg")
@@ -323,7 +317,7 @@ D3Graphics.CalendarGoogle.render = function (data) {
         .style("fill", "white")
         .attr("transform", "translate(" + D3Graphics.CalendarGoogle.vars.gridXTranslation + "," + D3Graphics.CalendarGoogle.vars.gridYTranslation + ")");
 
-    
+
     // This adds the day of the week headings on top of the grid
     D3Graphics.CalendarGoogle.vars.calendar.selectAll("headers")
         .data([0, 1, 2, 3, 4, 5, 6])
