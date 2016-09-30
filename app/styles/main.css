@@ -463,3 +463,9 @@ body {
   align: right;
   width: 50px;
 }
+
+/*** Google Calendar ***/
+
+.gcContent{
+  font-size: 0.875em;
+}

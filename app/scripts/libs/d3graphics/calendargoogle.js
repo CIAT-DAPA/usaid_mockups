@@ -17,7 +17,8 @@ D3Graphics.CalendarGoogle.vars = {
     calendar: null,
     chartsGroup: null,
     container: '#chart',
-    data: null
+    data: null,
+    container_scale: '#colors',
 }
 
 D3Graphics.CalendarGoogle.tools = {
@@ -105,7 +106,7 @@ D3Graphics.CalendarGoogle.tools = {
         for (var i = 1; i <= firstDayOfTheWeek; i++) {
             var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() - 1, daysInPreviousMonth - firstDayOfTheWeek + i);
             var value = D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date));
-            randomData.push(dailyData);
+            randomData.push(value);
         }
 
         // These are all the days in the current month.
@@ -114,7 +115,7 @@ D3Graphics.CalendarGoogle.tools = {
         for (i = 1; i <= daysInMonth; i++) {
             var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay(), i);
             var value = D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date));
-            randomData.push(dailyData);
+            randomData.push(value);
         }
 
         // Depending on how many days we have so far (from previous month and current), we will need
@@ -124,99 +125,22 @@ D3Graphics.CalendarGoogle.tools = {
         for (i = 1; i <= daysRequiredFromNextMonth; i++) {
             var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() + 1, i);
             var value = D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date));
-            randomData.push(dailyData);
-            /*dailyData = [];
-            total = 0;
-            var date = new Date(D3Graphics.CalendarGoogle.tools.yearToDisplay(), D3Graphics.CalendarGoogle.tools.monthToDisplay() + 1, i);
-            var value = parseFloat(D3Graphics.CalendarGoogle.tools.searchInData(D3Graphics.CalendarGoogle.tools.dateToYMD(date)));
-            total += value;
-            dailyData.push(value);
-            if (total != 0) {
-                for (var j = 0; j < dailyData.length; j++) {
-                    dailyData[j] = ((dailyData[j] / total) * 100).toFixed(1);
-                    //dailyData[j] = (dailyData[j]).toFixed(1); 
-                }
-            }
-            randomData.push(dailyData);*/
+            randomData.push(value);
         }
         return randomData;
-    },
-    drawGraphsForMonthlyData: function () {
-
-        /*
-        // Get some random data
-        var data = D3Graphics.CalendarGoogle.tools.getDataForMonth();
-        // Set up variables required to draw a pie chart
-        var outerRadius = D3Graphics.CalendarGoogle.tools.cellWidth() / 3;
-        var innerRadius = 0;
-        var pie = d3.layout.pie();
-        var color = D3Graphics.CalendarGoogle.tools.color;
-        var arc = d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius);
-
-        // We need to index and group the pie charts and slices generated so that they can be rendered in
-        // the appropriate cells. To do that, we call D3's 'pie' function of each of the data elements.
-        var indexedPieData = [];
-        for (var i = 0; i < data.length; i++) {
-            var pieSlices = pie(data[i]);
-            // This loop is to store an index (j) for each of the slices of a given pie chart. Two different charts
-            // on two different days will have the the same set of numbers for slices (eg: 0,1,2). This will help us
-            // pick the same colors for the slices for two independent charts. Otherwise, the colors of the slices
-            // will be different each day.
-            for (var j = 0; j < pieSlices.length; j++) {
-                indexedPieData.push([pieSlices[j], i, j]);
-            }
-        }
-
-        var cellPositions = D3Graphics.CalendarGoogle.tools.gridCellPositions();
-
-        D3Graphics.CalendarGoogle.vars.chartsGroup
-            .selectAll("g.arc")
-            .remove();
-
-        var arcs = D3Graphics.CalendarGoogle.vars.chartsGroup.selectAll("g.arc")
-            // use the indexed data so that each pie chart can be draw in a different cell and therefore for a different day
-            .data(indexedPieData)
-            .enter()
-            .append("g")
-            .attr("class", "arc")
-            .attr("transform", function (d) {
-                // This is where we use the index here to translate the pie chart and rendere it in the appropriate cell. 
-                // Normally, the chart would be squashed up against the top left of the cell, obscuring the text that shows the day of the month.
-                // We use the gridXTranslation and gridYTranslation and multiply it by a factor to move it to the center of the cell. There is probably
-                // a better way of doing this though.
-                var currentDataIndex = d[1];
-                return "translate(" + (outerRadius + D3Graphics.CalendarGoogle.vars.gridXTranslation * 5 + cellPositions[currentDataIndex][0]) + ", " + (outerRadius + D3Graphics.CalendarGoogle.vars.gridYTranslation * 1.25 + cellPositions[currentDataIndex][1]) + ")";
-            });
-
-        arcs.append("path")
-            .attr("fill", function (d, i) {
-                // The color is generated using the second index. Each slice of the pie is given a fixed number. This applies to all charts (see the indexing loop above).
-                // This way, by using the index we can generate teh same colors for each of the slices for different charts on different days.
-                return color(d[2]);
-            })
-            .attr("d", function (d, i) {
-                // Standard functions for drawing a pie charts in D3.
-                return arc(d[0]);
-            });
-
-        arcs.append("text")
-            .attr("transform", function (d, i) {
-                // Standard functions for drawing a pie charts in D3.
-                return "translate(" + arc.centroid(d[0]) + ")";
-            })
-            .attr("text-anchor", "middle")
-            .text(function (d, i) {
-                return d[0].value;
-            });*/
-
     },
     renderDaysOfMonth: function () {
         // RENDERDAYSOFMONTH
         $('#currentMonth').text(D3Graphics.CalendarGoogle.tools.monthToDisplayAsText() + ' ' + D3Graphics.CalendarGoogle.tools.yearToDisplay());
+        // Get data
+        var data = D3Graphics.CalendarGoogle.tools.getDataForMonth();
+
         // We get the days for the month we need to display based on the number of times the user has pressed
         // the forward or backward button.
         var daysInMonthToDisplay = D3Graphics.CalendarGoogle.tools.daysInMonth();
         var cellPositions = D3Graphics.CalendarGoogle.tools.gridCellPositions();
+
+        var round = d3.format(",.0f");
 
         // All text elements representing the dates in the month are grouped together in the "datesGroup" element by the initalizing
         // function below. The initializing function is also responsible for drawing the rectangles that make up the grid.
@@ -230,15 +154,93 @@ D3Graphics.CalendarGoogle.tools = {
             .attr("transform", "translate(" + D3Graphics.CalendarGoogle.vars.gridXTranslation + "," + D3Graphics.CalendarGoogle.vars.gridYTranslation + ")")
             .text(function (d) { return d[0]; }); // Render text for the day of the week
 
+        D3Graphics.CalendarGoogle.vars.chartsGroup
+            .selectAll("g")
+            .remove();
+
+        D3Graphics.CalendarGoogle.vars.chartsGroup
+            .selectAll("g.text")
+            .data(daysInMonthToDisplay)
+            .enter()            
+            .append("text")
+            .attr("class","gcContent")
+            .attr("x", function (d, i) { return cellPositions[i][0]; })
+            .attr("y", function (d, i) { return cellPositions[i][1]; })
+            .attr("dx", 20) // right padding
+            .attr("dy", 20) // vertical alignment : middle
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+40) + ")")
+            .text(function (d, i) {
+                return data[i].length > 0 ? 'Rendimiento Promedio: ': '';
+            }); // Render text for the day of the week
+
+        D3Graphics.CalendarGoogle.vars.chartsGroup
+            .selectAll("g.text")
+            .data(daysInMonthToDisplay)
+            .enter()
+            .append("text")
+            .attr("x", function (d, i) { return cellPositions[i][0]; })
+            .attr("y", function (d, i) { return cellPositions[i][1]; })
+            .attr("dx", 20) // right padding
+            .attr("dy", 20) // vertical alignment : middle
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+55) + ")")
+            .text(function (d, i) {
+                return data[i].length > 0 ? round(data[i][0].RendimientoPromedio) : '';
+            }); // Render text for the day of the week
+        
+        D3Graphics.CalendarGoogle.vars.chartsGroup
+            .selectAll("g.text")
+            .data(daysInMonthToDisplay)
+            .enter()            
+            .append("text")
+            .attr("class","gcContent")
+            .attr("x", function (d, i) { return cellPositions[i][0]; })
+            .attr("y", function (d, i) { return cellPositions[i][1]; })
+            .attr("dx", 20) // right padding
+            .attr("dy", 20) // vertical alignment : middle
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+70) + ")")
+            .text(function (d, i) {
+                return data[i].length > 0 ? 'Intervalo Rendimiento: ': '';                
+            }); // Render text for the day of the week
+        
+        D3Graphics.CalendarGoogle.vars.chartsGroup
+            .selectAll("g.text")
+            .data(daysInMonthToDisplay)
+            .enter()
+            .append("text")
+            .attr("x", function (d, i) { return cellPositions[i][0]; })
+            .attr("y", function (d, i) { return cellPositions[i][1]; })
+            .attr("dx", 20) // right padding
+            .attr("dy", 20) // vertical alignment : middle
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+85) + ")")
+            .text(function (d, i) {
+                if(data[i].length > 0){
+                    var low = parseFloat(data[i][0].RendimientoPromedio) - parseFloat(data[i][0].RendimientoDesviacion);
+                    var upper = parseFloat(data[i][0].RendimientoPromedio) + parseFloat(data[i][0].RendimientoDesviacion);
+                    return '[' + round(low) + ' - ' + round(upper) + ']'
+                }
+                else
+                    return '';
+            }); // Render text for the day of the week
+
+        var color = d3.scale.quantize()
+            .domain([0, 12000])
+            .range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
+
         D3Graphics.CalendarGoogle.vars.calendar
             .selectAll("rect")
             .data(daysInMonthToDisplay)
             // Here we change the color depending on whether the day is in the current month, the previous month or the next month.
             // The function that generates the dates for any given month will also specify the colors for days that are not part of the
             // current month. We just have to use it to fill the rectangle
-            .style("fill", function (d) { return d[1]; });
-
-        D3Graphics.CalendarGoogle.tools.drawGraphsForMonthlyData();
+            .style("fill", function (d,i) { 
+                var bg = '';
+                if(d[1].indexOf('FFFFFF')){
+                    bg += data[i].length > 0 ? color(data[i][0].RendimientoPromedio) : d[1];
+                } 
+                else
+                    bg += d[1];
+                return bg;
+            });
     },
     drawLegend: function () {
         var legend = D3Graphics.CalendarGoogle.vars.calendar.selectAll(".legend")
@@ -262,10 +264,8 @@ D3Graphics.CalendarGoogle.tools = {
 
         legend.exit().remove();
     },
-    color: function () {
-        return d3.scale.quantize()
-            .domain([2000, 12000])
-            .range(d3.range(11).map(function (d) { return "q" + d + "-11"; }));
+    init: function(data){
+        
     }
 }
 
@@ -333,6 +333,7 @@ D3Graphics.CalendarGoogle.render = function (data) {
     // to navigate between the months, we clear and re add the new text elements to this group
     D3Graphics.CalendarGoogle.vars.datesGroup = D3Graphics.CalendarGoogle.vars.calendar.append("svg:g");
     var daysInMonthToDisplay = D3Graphics.CalendarGoogle.tools.daysInMonth();
+
     D3Graphics.CalendarGoogle.vars.datesGroup
         .selectAll("daysText")
         .data(daysInMonthToDisplay)
@@ -348,10 +349,14 @@ D3Graphics.CalendarGoogle.render = function (data) {
     // Create a new svg group to store the chart elements and store it globally. Again, as the user navigates through the months by pressing 
     // the "back" and "forward" buttons on the page, we clear the chart elements from this group and re add them again.
     D3Graphics.CalendarGoogle.vars.chartsGroup = D3Graphics.CalendarGoogle.vars.calendar.append("svg:g");
-    // Call the function to draw the charts in the cells. This will be called again each time the user presses the forward or backward buttons.
-    D3Graphics.CalendarGoogle.tools.drawGraphsForMonthlyData();
+    
 
-    D3Graphics.CalendarGoogle.tools.renderDaysOfMonth()
+    // Call the function to draw the charts in the cells. This will be called again each time the user presses the forward or backward buttons.
+    //D3Graphics.CalendarGoogle.tools.drawGraphsForMonthlyData();
+
+    D3Graphics.CalendarGoogle.tools.renderDaysOfMonth();
+
+    
 
 }
 

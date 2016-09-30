@@ -16,7 +16,7 @@ angular.module('usaidMockupsApp')
       $scope.variedades = data;
     });
 
-    $scope.cambiar = function (value) {
+    $scope.cambiar = function (value) {      
       cultivoFactory.listarPorVariedad($scope.tipoCultivo, value).then(function (data) {
         D3Graphics.CalendarGoogle.render(data);
       });

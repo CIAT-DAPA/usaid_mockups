@@ -54,7 +54,7 @@ angular.module('usaidMockupsApp')
       
       var items = $http.get(dataFactory.getUrlDatos(cultivo)).then(function(response){        
         return CSV2Json.parse(response.data).filter(function(item){
-            return item.Variedad !== variedad;
+            return item.Variedad === variedad;
         });
       });      
       
