@@ -58,11 +58,16 @@ angular
         controller: 'BarchartCtrl',
         controllerAs: 'barchart'
       })
+      .when('/graficas/trend/:cultivoID/', {
+        templateUrl: 'views/trend.html',
+        controller: 'TrendCtrl',
+        controllerAs: 'trend'
+      })
       .when('/graficas/pieandline/clima/', {
         templateUrl: 'views/pieandline.html',
         controller: 'PieandlineCtrl',
         controllerAs: 'pieandline'
-      })
+      })      
       .when('/graficas/dashboard/clima/', {
         templateUrl: 'views/dashboard.html',
         controller: 'DashboardCtrl',

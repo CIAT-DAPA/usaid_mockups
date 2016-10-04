@@ -463,3 +463,82 @@ body {
   align: right;
   width: 50px;
 }
+
+
+/*** Trend ***/
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+#chart_trend svg {
+  font: 14px 'Open Sans';
+}
+
+#chart_trend .axis path,
+#chart_trend .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#chart_trend .axis text {
+  fill: #000;
+}
+
+#chart_trend .axis .tick line {
+  stroke: rgba(0, 0, 0, 0.1);
+}
+
+#chart_trend .area {
+  stroke-width: 1;
+}
+
+#chart_trend .area.outer,
+#chart_trend .legend .outer {
+  fill: rgba(230, 230, 255, 0.8);
+  stroke: rgba(216, 216, 255, 0.8);
+}
+
+#chart_trend .area.inner,
+#chart_trend .legend .inner {
+  fill: rgba(127, 127, 255, 0.8);
+  stroke: rgba(96, 96, 255, 0.8);
+}
+
+#chart_trend .median-line,
+#chart_trend .legend .median-line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 3;
+}
+
+#chart_trend .legend .legend-bg {
+  fill: rgba(0, 0, 0, 0.5);
+  stroke: rgba(0, 0, 0, 0.5);
+}
+
+#chart_trend .marker.client .marker-bg,
+#chart_trend .marker.client path {
+  fill: rgba(255, 127, 0, 0.8);
+  stroke: rgba(255, 127, 0, 0.8);
+  stroke-width: 3;
+}
+
+#chart_trend .marker.server .marker-bg,
+#chart_trend .marker.server path {
+  fill: rgba(0, 153, 51, 0.8);
+  stroke: rgba(0, 153, 51, 0.8);
+  stroke-width: 3;
+}
+
+#chart_trend .marker path {
+  fill: none;
+}
+
+#chart_trend .legend text,
+#chart_trend .marker text {
+  fill: #fff;
+  font-weight: bold;
+}
+
+#chart_trend .marker text {
+  text-anchor: middle;
+}
