@@ -155,22 +155,22 @@ D3Graphics.CalendarGoogle.tools = {
             .text(function (d) { return d[0]; }); // Render text for the day of the week
 
         D3Graphics.CalendarGoogle.vars.chartsGroup
-            .selectAll("g")
+            .selectAll(".gcContent")
             .remove();
 
         D3Graphics.CalendarGoogle.vars.chartsGroup
             .selectAll("g.text")
             .data(daysInMonthToDisplay)
-            .enter()            
+            .enter()
             .append("text")
-            .attr("class","gcContent")
+            .attr("class", "gcContent")
             .attr("x", function (d, i) { return cellPositions[i][0]; })
             .attr("y", function (d, i) { return cellPositions[i][1]; })
             .attr("dx", 20) // right padding
             .attr("dy", 20) // vertical alignment : middle
-            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+40) + ")")
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 40) + ")")
             .text(function (d, i) {
-                return data[i].length > 0 ? 'Rendimiento Promedio: ': '';
+                return data[i].length > 0 ? 'Rendimiento Promedio: ' : '';
             }); // Render text for the day of the week
 
         D3Graphics.CalendarGoogle.vars.chartsGroup
@@ -178,42 +178,44 @@ D3Graphics.CalendarGoogle.tools = {
             .data(daysInMonthToDisplay)
             .enter()
             .append("text")
+            .attr("class", "gcContent")
             .attr("x", function (d, i) { return cellPositions[i][0]; })
             .attr("y", function (d, i) { return cellPositions[i][1]; })
             .attr("dx", 20) // right padding
             .attr("dy", 20) // vertical alignment : middle
-            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+55) + ")")
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 55) + ")")
             .text(function (d, i) {
                 return data[i].length > 0 ? round(data[i][0].RendimientoPromedio) : '';
             }); // Render text for the day of the week
-        
-        D3Graphics.CalendarGoogle.vars.chartsGroup
-            .selectAll("g.text")
-            .data(daysInMonthToDisplay)
-            .enter()            
-            .append("text")
-            .attr("class","gcContent")
-            .attr("x", function (d, i) { return cellPositions[i][0]; })
-            .attr("y", function (d, i) { return cellPositions[i][1]; })
-            .attr("dx", 20) // right padding
-            .attr("dy", 20) // vertical alignment : middle
-            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+70) + ")")
-            .text(function (d, i) {
-                return data[i].length > 0 ? 'Intervalo Rendimiento: ': '';                
-            }); // Render text for the day of the week
-        
+
         D3Graphics.CalendarGoogle.vars.chartsGroup
             .selectAll("g.text")
             .data(daysInMonthToDisplay)
             .enter()
             .append("text")
+            .attr("class", "gcContent")
             .attr("x", function (d, i) { return cellPositions[i][0]; })
             .attr("y", function (d, i) { return cellPositions[i][1]; })
             .attr("dx", 20) // right padding
             .attr("dy", 20) // vertical alignment : middle
-            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation-18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation+85) + ")")
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 70) + ")")
             .text(function (d, i) {
-                if(data[i].length > 0){
+                return data[i].length > 0 ? 'Intervalo Rendimiento: ' : '';
+            }); // Render text for the day of the week
+
+        D3Graphics.CalendarGoogle.vars.chartsGroup
+            .selectAll("g.text")
+            .data(daysInMonthToDisplay)
+            .enter()
+            .append("text")
+            .attr("class", "gcContent")
+            .attr("x", function (d, i) { return cellPositions[i][0]; })
+            .attr("y", function (d, i) { return cellPositions[i][1]; })
+            .attr("dx", 20) // right padding
+            .attr("dy", 20) // vertical alignment : middle
+            .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 85) + ")")
+            .text(function (d, i) {
+                if (data[i].length > 0) {
                     var low = parseFloat(data[i][0].RendimientoPromedio) - parseFloat(data[i][0].RendimientoDesviacion);
                     var upper = parseFloat(data[i][0].RendimientoPromedio) + parseFloat(data[i][0].RendimientoDesviacion);
                     return '[' + round(low) + ' - ' + round(upper) + ']'
@@ -232,40 +234,73 @@ D3Graphics.CalendarGoogle.tools = {
             // Here we change the color depending on whether the day is in the current month, the previous month or the next month.
             // The function that generates the dates for any given month will also specify the colors for days that are not part of the
             // current month. We just have to use it to fill the rectangle
-            .style("fill", function (d,i) { 
+            .style("fill", function (d, i) {
                 var bg = '';
-                if(d[1].indexOf('FFFFFF')){
+                if (d[1].indexOf('FFFFFF')) {
                     bg += data[i].length > 0 ? color(data[i][0].RendimientoPromedio) : d[1];
-                } 
+                }
                 else
                     bg += d[1];
                 return bg;
             });
     },
     drawLegend: function () {
-        var legend = D3Graphics.CalendarGoogle.vars.calendar.selectAll(".legend")
-            .data([0].concat(colorScale.quantiles()), function (d) { return d; });
+        var color = d3.scale.quantize()
+            .domain([0, 12000])
+            .range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
 
-        legend.enter().append("g")
-            .attr("class", "legend");
+        var legend = D3Graphics.CalendarGoogle.vars.calendar.append("svg:g")
+            .attr('class', 'legendScale')
+            .attr('width', 10)
+            .attr('height', D3Graphics.CalendarGoogle.vars.calendarHeight)
+            .append('g')
+            .attr('transform', 'translate(' + D3Graphics.CalendarGoogle.vars.calendarWidth + ',0)');
 
-        legend.append("rect")
-            .attr("x", function (d, i) { return legendElementWidth * i; })
-            .attr("y", height)
-            .attr("width", legendElementWidth)
-            .attr("height", gridSize / 2)
-            .style("fill", function (d, i) { return colors[i]; });
+        // clear current legend
+        //legend.selectAll('*').remove();
 
-        legend.append("text")
-            .attr("class", "mono")
-            .text(function (d) { return "≥ " + Math.round(d); })
-            .attr("x", function (d, i) { return legendElementWidth * i; })
-            .attr("y", height + gridSize);
+        // append gradient bar
+        var gradient = legend.append('defs')
+            .append('linearGradient')
+            .attr('id', 'gradient')
+            .attr('x1', '0%') // bottom
+            .attr('y1', '100%')
+            .attr('x2', '0%') // to top
+            .attr('y2', '0%')
+            .attr('spreadMethod', 'pad');
 
-        legend.exit().remove();
-    },
-    init: function(data){
-        
+        gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "#0c0")
+            .attr("stop-opacity", 1);
+
+        gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "#c00")
+            .attr("stop-opacity", 1);
+
+        legend.append('rect')
+            .attr('x1', 0)
+            .attr('y1', 0)
+            .attr('width', 8)
+            .attr('height', D3Graphics.CalendarGoogle.vars.calendarHeight)
+            .style('fill', 'url(#gradient)');
+
+        var legendScale = d3.scale.linear()
+            .domain([0, 12000])
+            .range([0, 12000]);
+
+        var legendAxis = d3.svg.axis()
+            .scale(legendScale)
+            .orient("right")
+            .tickValues(6)
+            .tickFormat(d3.format("d"));
+
+        legend.append("g")
+            .attr("class", "legend axis")
+            .attr("transform", "translate(" + 10 + ", 0)")
+            .call(legendAxis);
+
     }
 }
 
@@ -349,14 +384,11 @@ D3Graphics.CalendarGoogle.render = function (data) {
     // Create a new svg group to store the chart elements and store it globally. Again, as the user navigates through the months by pressing 
     // the "back" and "forward" buttons on the page, we clear the chart elements from this group and re add them again.
     D3Graphics.CalendarGoogle.vars.chartsGroup = D3Graphics.CalendarGoogle.vars.calendar.append("svg:g");
-    
-
-    // Call the function to draw the charts in the cells. This will be called again each time the user presses the forward or backward buttons.
-    //D3Graphics.CalendarGoogle.tools.drawGraphsForMonthlyData();
 
     D3Graphics.CalendarGoogle.tools.renderDaysOfMonth();
 
-    
+    // Print de color scale 
+    D3Graphics.CalendarGoogle.tools.drawLegend();
 
 }
 

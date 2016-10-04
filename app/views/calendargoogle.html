@@ -13,7 +13,7 @@
         <td ng-repeat="variedad in variedades">
             <label>
                 <input type="radio" ng-value="variedad" name="variedad" 
-                    ng-model="role"  ng-change='cambiar(variedad)'  ng-init="$index==0?(role=variedad):''; $index==0?cambiar(variedad):'' "  />
+                    ng-model="role"  ng-click='cambiar(variedad)'  ng-init="$index==0?(role=variedad):''; $index==0?cambiar(variedad):'' "  />
                 {{variedad}}
             </label>
         </td>
