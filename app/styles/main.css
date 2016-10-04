@@ -464,14 +464,7 @@ body {
   width: 50px;
 }
 
-
 /*** Trend ***/
-@import url(//fonts.googleapis.com/css?family=Open+Sans:400,700);
-
-#chart_trend svg {
-  font: 14px 'Open Sans';
-}
-
 #chart_trend .axis path,
 #chart_trend .axis line {
   fill: none;
@@ -541,4 +534,10 @@ body {
 
 #chart_trend .marker text {
   text-anchor: middle;
+}
+
+/*** Google Calendar ***/
+
+.gcContent{
+  font-size: 0.875em;
 }
