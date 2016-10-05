@@ -1,0 +1,56 @@
+[
+    {
+        "State": "Octubre",
+        "freq": {
+            "bajo": 42,
+            "normal": 28,
+            "alta": 30
+        },
+        "total": 178
+    },
+    {
+        "State": "Noviembre",
+        "freq": {
+            "bajo": 44,
+            "normal": 29,
+            "alta": 27
+        },
+        "total": 134
+    },
+    {
+        "State": "Diciembre",
+        "freq": {
+            "bajo": 30,
+            "normal": 27,
+            "alta": 43
+        },
+        "total": 102
+    },
+    {
+        "State": "Enero",
+        "freq": {
+            "bajo": 31,
+            "normal": 29,
+            "alta": 40
+        },
+        "total": 75
+    },
+    {
+        "State": "Febrero",
+        "freq": {
+            "bajo": 34,
+            "normal": 28,
+            "alta": 38
+        },
+        "total": 93
+    },
+	{
+        "State": "Marzo",
+        "freq": {
+            "bajo": 30,
+            "normal": 31,
+            "alta": 39
+        },
+        "total": 169
+    }
+]
