@@ -9,25 +9,27 @@ D3Graphics.Trend.vars = {
 
 
 D3Graphics.Trend.render = function (data) {
-    console.log(data);
-    //function drawPaths (svg, data, x, y) {
     var containerEl = document.getElementById(D3Graphics.Trend.vars.container);
+    $("#" + D3Graphics.Trend.vars.container).html('');
     var width = containerEl.clientWidth,
         height = width * 0.4,
-        margin = { top: 20, right: 20, bottom: 40, left: 40 },
+        margin = { top: 20, right: 20, bottom: 40, left: 60 },
         chartWidth = width - margin.left - margin.right,
         chartHeight = height - margin.top - margin.bottom;
+    var parseDate  = d3.time.format('%Y-%m-%d').parse;
 
     var svg = d3.select("#" + D3Graphics.Trend.vars.container).append('svg')
         .attr('width', width)
         .attr('height', height)
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
     
+
     var x = d3.time.scale().range([0, chartWidth])
-        .domain(d3.extent(data, function (d) { return d.Fecha; })),
+        .domain(d3.extent(data, function (d) { return parseDate(d.Fecha); })),
         y = d3.scale.linear().range([chartHeight, 0])
-            .domain([0, d3.max(data, function (d) { return d.pct95; })]);
+            .domain([0, d3.max(data, function (d) { return d.pct95 * 1.1; })]);
 
     // clipping to start chart hidden and slide it in later
     var rectClip = svg.append('clipPath')
@@ -35,37 +37,37 @@ D3Graphics.Trend.render = function (data) {
         .append('rect')
         .attr('width', 0)
         .attr('height', chartHeight);
+    
+    svg.datum(data);
 
     var upperOuterArea = d3.svg.area()
         .interpolate('basis')
-        .x(function (d) { return x(d.Fecha) || 1; })
+        .x(function (d) { return x(parseDate(d.Fecha)) || 1; })
         .y0(function (d) { return y(d.pct95); })
         .y1(function (d) { return y(d.pct75); });
 
     var upperInnerArea = d3.svg.area()
         .interpolate('basis')
-        .x(function (d) { return x(d.Fecha) || 1; })
+        .x(function (d) { return x(parseDate(d.Fecha)) || 1; })
         .y0(function (d) { return y(d.pct75); })
         .y1(function (d) { return y(d.pct50); });
 
     var medianLine = d3.svg.line()
         .interpolate('basis')
-        .x(function (d) { return x(d.Fecha); })
+        .x(function (d) { return x(parseDate(d.Fecha)); })
         .y(function (d) { return y(d.pct50); });
 
     var lowerInnerArea = d3.svg.area()
         .interpolate('basis')
-        .x(function (d) { return x(d.Fecha) || 1; })
+        .x(function (d) { return x(parseDate(d.Fecha)) || 1; })
         .y0(function (d) { return y(d.pct50); })
         .y1(function (d) { return y(d.pct25); });
 
     var lowerOuterArea = d3.svg.area()
         .interpolate('basis')
-        .x(function (d) { return x(d.Fecha) || 1; })
+        .x(function (d) { return x(parseDate(d.Fecha)) || 1; })
         .y0(function (d) { return y(d.pct25); })
         .y1(function (d) { return y(d.pct05); });
-
-    svg.datum(data);
 
     svg.append('path')
         .attr('class', 'area upper outer')
@@ -86,17 +88,15 @@ D3Graphics.Trend.render = function (data) {
         .attr('class', 'area lower inner')
         .attr('d', lowerInnerArea)
         .attr('clip-path', 'url(#rect-clip)');
+    
+    
 
     svg.append('path')
         .attr('class', 'median-line')
         .attr('d', medianLine)
         .attr('clip-path', 'url(#rect-clip)');
 
-
-
     // Axis
-    
-
     var xAxis = d3.svg.axis().scale(x).orient('bottom')
         .innerTickSize(-chartHeight).outerTickSize(0).tickPadding(10),
         yAxis = d3.svg.axis().scale(y).orient('left')
@@ -118,5 +118,10 @@ D3Graphics.Trend.render = function (data) {
         .attr('y', 6)
         .attr('dy', '.71em')
         .style('text-anchor', 'end')
-        .text('Time (s)');
+        .text('Rendimiento');
+
+   rectClip.transition()
+        .duration(1000 )
+        .attr('width', chartWidth);
+
 }
