@@ -113,6 +113,7 @@ body {
   stroke-width: 2px;
 }
 
+
 /* color ranges */
 
 .RdYlGn .q0-11 {
@@ -222,6 +223,7 @@ body {
 .bar3 {
   fill: forestgreen;
 }
+
 .x.axis path {
   display: none;
 }
@@ -464,9 +466,10 @@ body {
   width: 50px;
 }
 
+
 /*** Trend ***/
-#chart_trend .axis path,
-#chart_trend .axis line {
+
+#chart_trend .axis path, #chart_trend .axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
@@ -484,20 +487,17 @@ body {
   stroke-width: 1;
 }
 
-#chart_trend .area.outer,
-#chart_trend .legend .outer {
+#chart_trend .area.outer, #chart_trend .legend .outer {
   fill: rgba(230, 230, 255, 0.8);
   stroke: rgba(216, 216, 255, 0.8);
 }
 
-#chart_trend .area.inner,
-#chart_trend .legend .inner {
+#chart_trend .area.inner, #chart_trend .legend .inner {
   fill: rgba(127, 127, 255, 0.8);
   stroke: rgba(96, 96, 255, 0.8);
 }
 
-#chart_trend .median-line,
-#chart_trend .legend .median-line {
+#chart_trend .median-line, #chart_trend .legend .median-line {
   fill: none;
   stroke: #000;
   stroke-width: 3;
@@ -508,15 +508,13 @@ body {
   stroke: rgba(0, 0, 0, 0.5);
 }
 
-#chart_trend .marker.client .marker-bg,
-#chart_trend .marker.client path {
+#chart_trend .marker.client .marker-bg, #chart_trend .marker.client path {
   fill: rgba(255, 127, 0, 0.8);
   stroke: rgba(255, 127, 0, 0.8);
   stroke-width: 3;
 }
 
-#chart_trend .marker.server .marker-bg,
-#chart_trend .marker.server path {
+#chart_trend .marker.server .marker-bg, #chart_trend .marker.server path {
   fill: rgba(0, 153, 51, 0.8);
   stroke: rgba(0, 153, 51, 0.8);
   stroke-width: 3;
@@ -526,8 +524,7 @@ body {
   fill: none;
 }
 
-#chart_trend .legend text,
-#chart_trend .marker text {
+#chart_trend .legend text, #chart_trend .marker text {
   fill: #fff;
   font-weight: bold;
 }
@@ -536,8 +533,42 @@ body {
   text-anchor: middle;
 }
 
+
 /*** Google Calendar ***/
 
-.gcContent{
+#chart_google .gcContent {
   font-size: 0.875em;
+}
+
+#chart_google .axis path, #chart_google .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#chart_google {
+  vertical-align: top;
+}
+
+#chart_google .controls {
+  padding-top: 10px;
+}
+
+#chart_colors .key path {
+  display: none;
+}
+
+#chart_colors .key line {
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#chart_colors .legend-title {
+    font-weight: bold;
+}
+
+#chart_colors .legend-box {
+    fill: none;
+    stroke: #888;
+    font-size: 10px;
 }

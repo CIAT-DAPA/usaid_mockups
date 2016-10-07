@@ -3,8 +3,8 @@ var D3Graphics = D3Graphics || {};
 D3Graphics.CalendarGoogle = D3Graphics.CalendarGoogle || {};
 
 D3Graphics.CalendarGoogle.vars = {
-    calendarWidth: 960,
-    calendarHeight: 1000,
+    calendarWidth: 1000,
+    calendarHeight: 850,
     gridXTranslation: 6,
     gridYTranslation: 90,
     cellColorForCurrentMonth: '#EAEAEA',
@@ -16,9 +16,8 @@ D3Graphics.CalendarGoogle.vars = {
     datesGroup: null,
     calendar: null,
     chartsGroup: null,
-    container: '#chart',
-    data: null,
-    container_scale: '#colors',
+    container: '#chart_google',
+    data: null
 }
 
 D3Graphics.CalendarGoogle.tools = {
@@ -224,9 +223,7 @@ D3Graphics.CalendarGoogle.tools = {
                     return '';
             }); // Render text for the day of the week
 
-        var color = d3.scale.quantize()
-            .domain([0, 12000])
-            .range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
+        var color = D3Graphics.CalendarGoogle.tools.color();
 
         D3Graphics.CalendarGoogle.vars.calendar
             .selectAll("rect")
@@ -244,63 +241,93 @@ D3Graphics.CalendarGoogle.tools = {
                 return bg;
             });
     },
-    drawLegend: function () {
-        var color = d3.scale.quantize()
+    color: function () {
+        return d3.scale.quantize()
             .domain([0, 12000])
             .range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
+    },
+    drawLegend: function () {
+        
 
-        var legend = D3Graphics.CalendarGoogle.vars.calendar.append("svg:g")
-            .attr('class', 'legendScale')
-            .attr('width', 10)
-            .attr('height', D3Graphics.CalendarGoogle.vars.calendarHeight)
-            .append('g')
-            .attr('transform', 'translate(' + D3Graphics.CalendarGoogle.vars.calendarWidth + ',0)');
+        var boxmargin = 4,
+            lineheight = 14,
+            keyheight = 10,
+            keywidth = 40,
+            boxwidth = 2 * (keywidth*1.3),
+            formatPercent = d3.format(".0f");
 
-        // clear current legend
-        //legend.selectAll('*').remove();
+        var sevenshadesofgold = ["#A50026", "#F46D43", "#FEE08B", "#D9EF8B", "#66BD63", "#006837"];
 
-        // append gradient bar
-        var gradient = legend.append('defs')
-            .append('linearGradient')
-            .attr('id', 'gradient')
-            .attr('x1', '0%') // bottom
-            .attr('y1', '100%')
-            .attr('x2', '0%') // to top
-            .attr('y2', '0%')
-            .attr('spreadMethod', 'pad');
+        var title = ['Niveles de','rendimiento'],
+            titleheight = title.length * lineheight + boxmargin;
 
-        gradient.append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", "#0c0")
-            .attr("stop-opacity", 1);
+        var x = d3.scale.linear()
+            .domain([0, 1]);
+        
+        var rendimiento = d3.scale.linear()
+                            .domain([0, 1])
+                            .range([0, 12000]);
 
-        gradient.append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", "#c00")
-            .attr("stop-opacity", 1);
+        var quantize = d3.scale.quantize()
+            .domain([0, 1])
+            .range(sevenshadesofgold);
 
-        legend.append('rect')
-            .attr('x1', 0)
-            .attr('y1', 0)
-            .attr('width', 8)
-            .attr('height', D3Graphics.CalendarGoogle.vars.calendarHeight)
-            .style('fill', 'url(#gradient)');
+        var ranges = quantize.range().length;
 
-        var legendScale = d3.scale.linear()
-            .domain([0, 12000])
-            .range([0, 12000]);
+        // return quantize thresholds for the key    
+        var qrange = function (max, num) {
+            var a = [];
+            for (var i = 0; i < num; i++) {
+                a.push(i * max / num);
+            }
+            return a;
+        }
 
-        var legendAxis = d3.svg.axis()
-            .scale(legendScale)
-            .orient("right")
-            .tickValues(6)
-            .tickFormat(d3.format("d"));
+        var svg = d3.select("#chart_colors").append("svg")
+            .attr("width", 190)
+            .attr("height", 150);
 
-        legend.append("g")
-            .attr("class", "legend axis")
-            .attr("transform", "translate(" + 10 + ", 0)")
-            .call(legendAxis);
+        var legend =svg.append("g")
+            .attr('transform', 'translate(0,0)')
+            .attr("class", "legend-calendar");
 
+        legend.selectAll("text")
+            .data(title)
+            .enter().append("text")
+            .attr("class", "legend-title")
+            .attr("y", function (d, i) { return (i + 1) * lineheight - 2; })
+            .text(function (d) { return d; })
+
+        var lb = legend.append("rect")
+            .attr("transform", "translate (0,"+titleheight+")")
+            .attr("class", "legend-box")
+            .attr("width", boxwidth)
+            .attr("height", ranges * lineheight + 2 * boxmargin + lineheight - keyheight);
+
+        // make quantized key legend items
+        var li = legend.append("g")
+             .attr("transform", "translate (8,"+(titleheight+boxmargin)+")")
+            .attr("class", "legend-items");
+
+        li.selectAll("rect")
+            .data(quantize.range().map(function (color) {
+                var d = quantize.invertExtent(color);
+                if (d[0] == null) d[0] = x.domain()[0];
+                if (d[1] == null) d[1] = x.domain()[1];
+                return d;
+            }))
+            .enter().append("rect")
+            .attr("y", function (d, i) { return i * lineheight + lineheight - keyheight; })
+            .attr("width", keywidth)
+            .attr("height", keyheight)
+            .style("fill", function (d) { return quantize(d[0]); });
+
+        li.selectAll("text")
+            .data(qrange(quantize.domain()[1], ranges))
+            .enter().append("text")
+            .attr("x", 48)
+            .attr("y", function (d, i) { return (i + 1) * lineheight - 2; })
+            .text(function (d) { return rendimiento(d) +2000; });
     }
 }
 
