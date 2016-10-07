@@ -16,7 +16,7 @@ D3Graphics.Trend.render = function (data) {
         margin = { top: 20, right: 20, bottom: 40, left: 60 },
         chartWidth = width - margin.left - margin.right,
         chartHeight = height - margin.top - margin.bottom;
-    var parseDate  = d3.time.format('%Y-%m-%d').parse;
+    var parseDate = d3.time.format('%Y-%m-%d').parse;
 
     var svg = d3.select("#" + D3Graphics.Trend.vars.container).append('svg')
         .attr('width', width)
@@ -24,7 +24,7 @@ D3Graphics.Trend.render = function (data) {
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    
+
 
     var x = d3.time.scale().range([0, chartWidth])
         .domain(d3.extent(data, function (d) { return parseDate(d.Fecha); })),
@@ -37,7 +37,7 @@ D3Graphics.Trend.render = function (data) {
         .append('rect')
         .attr('width', 0)
         .attr('height', chartHeight);
-    
+
     svg.datum(data);
 
     var upperOuterArea = d3.svg.area()
@@ -88,8 +88,8 @@ D3Graphics.Trend.render = function (data) {
         .attr('class', 'area lower inner')
         .attr('d', lowerInnerArea)
         .attr('clip-path', 'url(#rect-clip)');
-    
-    
+
+
 
     svg.append('path')
         .attr('class', 'median-line')
@@ -120,8 +120,54 @@ D3Graphics.Trend.render = function (data) {
         .style('text-anchor', 'end')
         .text('Rendimiento');
 
-   rectClip.transition()
-        .duration(1000 )
+    rectClip.transition()
+        .duration(1000)
         .attr('width', chartWidth);
+
+    // legend
+    var legendWidth  = 200,
+      legendHeight = 100;
+      
+    var legend = svg.append('g')
+        .attr('class', 'legend')
+        .attr('transform', 'translate(' + (chartWidth - legendWidth) + ', 0)');
+
+    legend.append('rect')
+        .attr('class', 'legend-bg')
+        .attr('width', legendWidth)
+        .attr('height', legendHeight);
+
+    legend.append('rect')
+        .attr('class', 'outer')
+        .attr('width', 75)
+        .attr('height', 20)
+        .attr('x', 10)
+        .attr('y', 10);
+
+    legend.append('text')
+        .attr('x', 115)
+        .attr('y', 25)
+        .text('5% - 95%');
+
+    legend.append('rect')
+        .attr('class', 'inner')
+        .attr('width', 75)
+        .attr('height', 20)
+        .attr('x', 10)
+        .attr('y', 40);
+
+    legend.append('text')
+        .attr('x', 115)
+        .attr('y', 55)
+        .text('25% - 75%');
+
+    legend.append('path')
+        .attr('class', 'median-line')
+        .attr('d', 'M10,80L85,80');
+
+    legend.append('text')
+        .attr('x', 115)
+        .attr('y', 85)
+        .text('Median');
 
 }
