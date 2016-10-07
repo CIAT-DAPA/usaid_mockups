@@ -3,7 +3,8 @@ var D3Graphics = D3Graphics || {};
 D3Graphics.CalendarGoogle = D3Graphics.CalendarGoogle || {};
 
 D3Graphics.CalendarGoogle.vars = {
-    calendarWidth: 1000,
+    calendarWidthReal: 1100,
+    calendarWidth: 950,
     calendarHeight: 850,
     gridXTranslation: 6,
     gridYTranslation: 90,
@@ -244,7 +245,8 @@ D3Graphics.CalendarGoogle.tools = {
     color: function () {
         return d3.scale.quantize()
             .domain([0, 12000])
-            .range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
+            //.range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
+            .range(["#A50026", "#F46D43", "#FEE08B", "#D9EF8B", "#66BD63", "#006837"]);
     },
     drawLegend: function () {
         
@@ -283,12 +285,8 @@ D3Graphics.CalendarGoogle.tools = {
             return a;
         }
 
-        var svg = d3.select("#chart_colors").append("svg")
-            .attr("width", 190)
-            .attr("height", 150);
-
-        var legend =svg.append("g")
-            .attr('transform', 'translate(0,0)')
+        var legend = D3Graphics.CalendarGoogle.vars.calendar.append("svg:g")
+            .attr('transform', 'translate(' + D3Graphics.CalendarGoogle.vars.calendarWidth  +',0)')
             .attr("class", "legend-calendar");
 
         legend.selectAll("text")
@@ -358,7 +356,7 @@ D3Graphics.CalendarGoogle.render = function (data) {
     D3Graphics.CalendarGoogle.vars.calendar = d3.select(D3Graphics.CalendarGoogle.vars.container)
         .append("svg")
         .attr("class", "calendar")
-        .attr("width", D3Graphics.CalendarGoogle.vars.calendarWidth)
+        .attr("width", D3Graphics.CalendarGoogle.vars.calendarWidthReal)
         .attr("height", D3Graphics.CalendarGoogle.vars.calendarHeight)
         .append("g");
 

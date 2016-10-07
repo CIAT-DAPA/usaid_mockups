@@ -554,20 +554,20 @@ body {
   padding-top: 10px;
 }
 
-#chart_colors .key path {
+.legend-calendar .key path {
   display: none;
 }
 
-#chart_colors .key line {
+.legend-calendar .key line {
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-#chart_colors .legend-title {
+.legend-calendar .legend-title {
     font-weight: bold;
 }
 
-#chart_colors .legend-box {
+.legend-calendar .legend-box {
     fill: none;
     stroke: #888;
     font-size: 10px;
