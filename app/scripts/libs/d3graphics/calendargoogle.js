@@ -186,7 +186,7 @@ D3Graphics.CalendarGoogle.tools = {
             .attr("dy", 20) // vertical alignment : middle
             .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 55) + ")")
             .text(function (d, i) {
-                return data[i].length > 0 ? round(data[i][0].RendimientoPromedio) + ' kg/hec' : '';
+                return data[i].length > 0 ? round(data[i][0].RendimientoPromedio)  : '';
             })
             .style("font-size",'15px')
             .style("font-weight",'bold'); // Render text for the day of the week
@@ -266,7 +266,7 @@ D3Graphics.CalendarGoogle.tools = {
 
         var sevenshadesofgold = ["#A50026", "#F46D43", "#FEE08B", "#D9EF8B", "#66BD63", "#006837"];
 
-        var title = ['Niveles de','rendimiento (kg/hec)'],
+        var title = ['Niveles de','rendimiento (kg/ha)'],
             titleheight = title.length * lineheight + boxmargin;
 
         var x = d3.scale.linear()
