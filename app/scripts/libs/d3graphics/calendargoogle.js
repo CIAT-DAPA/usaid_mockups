@@ -18,7 +18,8 @@ D3Graphics.CalendarGoogle.vars = {
     calendar: null,
     chartsGroup: null,
     container: '#chart_google',
-    data: null
+    data: null,
+    setted: false
 }
 
 D3Graphics.CalendarGoogle.tools = {
@@ -26,8 +27,8 @@ D3Graphics.CalendarGoogle.tools = {
     gridHeight: function () { return D3Graphics.CalendarGoogle.vars.calendarHeight - 40; },
     cellWidth: function () { return D3Graphics.CalendarGoogle.tools.gridWidth() / 7; },
     cellHeight: function () { return D3Graphics.CalendarGoogle.tools.gridHeight() / 7; },
-    incrementCounter: function () { D3Graphics.CalendarGoogle.vars.counter += 1; },
-    decrementCounter: function () { D3Graphics.CalendarGoogle.vars.counter -= 1; },
+    incrementCounter: function () { console.log(D3Graphics.CalendarGoogle.vars.counter); D3Graphics.CalendarGoogle.vars.counter += 1; console.log(D3Graphics.CalendarGoogle.vars.counter);},
+    decrementCounter: function () { console.log(D3Graphics.CalendarGoogle.vars.counter); D3Graphics.CalendarGoogle.vars.counter -= 1; console.log(D3Graphics.CalendarGoogle.vars.counter);},
     monthToDisplay: function () {
         var dateToDisplay = new Date();
         // We use the counter that keep tracks of "back" and "forward" presses to get the month to display.
@@ -170,7 +171,7 @@ D3Graphics.CalendarGoogle.tools = {
             .attr("dy", 20) // vertical alignment : middle
             .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 40) + ")")
             .text(function (d, i) {
-                return data[i].length > 0 ? 'Rendimiento Promedio: ' : '';
+                return data[i].length > 0 ? 'Rendimiento esperado: ' : '';
             }); // Render text for the day of the week
 
         D3Graphics.CalendarGoogle.vars.chartsGroup
@@ -185,8 +186,10 @@ D3Graphics.CalendarGoogle.tools = {
             .attr("dy", 20) // vertical alignment : middle
             .attr("transform", "translate(" + (D3Graphics.CalendarGoogle.vars.gridXTranslation - 18) + "," + (D3Graphics.CalendarGoogle.vars.gridYTranslation + 55) + ")")
             .text(function (d, i) {
-                return data[i].length > 0 ? round(data[i][0].RendimientoPromedio) : '';
-            }); // Render text for the day of the week
+                return data[i].length > 0 ? round(data[i][0].RendimientoPromedio) + ' kg/hec' : '';
+            })
+            .style("font-size",'15px')
+            .style("font-weight",'bold'); // Render text for the day of the week
 
         D3Graphics.CalendarGoogle.vars.chartsGroup
             .selectAll("g.text")
@@ -222,7 +225,9 @@ D3Graphics.CalendarGoogle.tools = {
                 }
                 else
                     return '';
-            }); // Render text for the day of the week
+            })
+            .style("font-size",'14px')
+            .style("font-weight",'bold'); // Render text for the day of the week
 
         var color = D3Graphics.CalendarGoogle.tools.color();
 
@@ -244,7 +249,8 @@ D3Graphics.CalendarGoogle.tools = {
     },
     color: function () {
         return d3.scale.quantize()
-            .domain([0, 12000])
+            .domain([6000, 8000])
+            //.domain([0, 12000])
             //.range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
             .range(["#A50026", "#F46D43", "#FEE08B", "#D9EF8B", "#66BD63", "#006837"]);
     },
@@ -260,7 +266,7 @@ D3Graphics.CalendarGoogle.tools = {
 
         var sevenshadesofgold = ["#A50026", "#F46D43", "#FEE08B", "#D9EF8B", "#66BD63", "#006837"];
 
-        var title = ['Niveles de','rendimiento'],
+        var title = ['Niveles de','rendimiento (kg/hec)'],
             titleheight = title.length * lineheight + boxmargin;
 
         var x = d3.scale.linear()
@@ -268,7 +274,8 @@ D3Graphics.CalendarGoogle.tools = {
         
         var rendimiento = d3.scale.linear()
                             .domain([0, 1])
-                            .range([0, 12000]);
+                            .range([6000, 8000]);
+                            //.range([0, 12000]);
 
         var quantize = d3.scale.quantize()
             .domain([0, 1])
@@ -320,12 +327,14 @@ D3Graphics.CalendarGoogle.tools = {
             .attr("height", keyheight)
             .style("fill", function (d) { return quantize(d[0]); });
 
+        var round = d3.format(",.0f");
+
         li.selectAll("text")
             .data(qrange(quantize.domain()[1], ranges))
             .enter().append("text")
             .attr("x", 48)
             .attr("y", function (d, i) { return (i + 1) * lineheight - 2; })
-            .text(function (d) { return rendimiento(d) +2000; });
+            .text(function (d) { return round(rendimiento(d)); });
     }
 }
 
@@ -345,9 +354,13 @@ D3Graphics.CalendarGoogle.controls = {
 D3Graphics.CalendarGoogle.render = function (data) {
     // Clear container
     $(D3Graphics.CalendarGoogle.vars.container).html('');
-    // Controls
-    $('#back').click(D3Graphics.CalendarGoogle.controls.displayPreviousMonth);
-    $('#forward').click(D3Graphics.CalendarGoogle.controls.displayNextMonth);
+    if(!D3Graphics.CalendarGoogle.vars.setted){
+        //Controls    
+        $('#back').click(D3Graphics.CalendarGoogle.controls.displayPreviousMonth);
+        $('#forward').click(D3Graphics.CalendarGoogle.controls.displayNextMonth);
+        D3Graphics.CalendarGoogle.vars.setted = true;
+    }
+    
 
     // Set data
     D3Graphics.CalendarGoogle.vars.data = data;
@@ -416,4 +429,3 @@ D3Graphics.CalendarGoogle.render = function (data) {
     D3Graphics.CalendarGoogle.tools.drawLegend();
 
 }
-

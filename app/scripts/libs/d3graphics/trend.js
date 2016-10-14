@@ -130,7 +130,7 @@ D3Graphics.Trend.render = function (data) {
       
     var legend = svg.append('g')
         .attr('class', 'legend')
-        .attr('transform', 'translate(' + (chartWidth - legendWidth) + ', 0)');
+        .attr('transform', 'translate(' + (chartWidth - legendWidth) + ', ' + (chartHeight - legendHeight) + ')');
 
     legend.append('rect')
         .attr('class', 'legend-bg')
