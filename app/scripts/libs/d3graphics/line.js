@@ -227,9 +227,9 @@ D3Graphics.Line.render = function (data) {
     // Line Normal
     svg.append('line')
         .attr('x1',0)
-        .attr('y1',y(75))
+        .attr('y1',y(247))
         .attr('x2',width)
-        .attr('y2',y(75))
+        .attr('y2',y(247))
         .attr("stroke-width", 2)
         .attr("stroke", "red");
 

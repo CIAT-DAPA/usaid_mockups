@@ -168,6 +168,6 @@ D3Graphics.Trend.render = function (data) {
     legend.append('text')
         .attr('x', 115)
         .attr('y', 85)
-        .text('Median');
+        .text('Media');
 
 }
