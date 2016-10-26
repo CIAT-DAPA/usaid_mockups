@@ -368,7 +368,7 @@ body {
 }
 
 .pieChart--detail--percentage {
-  font-size: 42px;
+  font-size: 22px;
   font-weight: 100;
   fill: #333;
   stroke-width: 1px;

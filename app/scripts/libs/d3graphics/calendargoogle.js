@@ -249,7 +249,7 @@ D3Graphics.CalendarGoogle.tools = {
     },
     color: function () {
         return d3.scale.quantize()
-            .domain([6000, 8000])
+            .domain([9000, 11000])
             //.domain([0, 12000])
             //.range(["hsl(0,100%,36%)", "hsl(130,100%,36%)"]);
             .range(["#A50026", "#F46D43", "#FEE08B", "#D9EF8B", "#66BD63", "#006837"]);
@@ -274,7 +274,7 @@ D3Graphics.CalendarGoogle.tools = {
         
         var rendimiento = d3.scale.linear()
                             .domain([0, 1])
-                            .range([6000, 8000]);
+                            .range([9000, 11000]);
                             //.range([0, 12000]);
 
         var quantize = d3.scale.quantize()
